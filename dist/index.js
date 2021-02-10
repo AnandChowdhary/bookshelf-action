@@ -16356,9 +16356,22 @@ const run = async () => {
     const octokit = github_1.getOctokit(token);
     if (COMMAND === "onNewIssue")
         return onNewIssue(octokit);
+    if (COMMAND === "onCloseIssue")
+        return onCloseIssue(octokit);
     throw new Error("Command not recognized");
 };
 exports.run = run;
+const onCloseIssue = async (octokit) => {
+    await octokit.issues.addLabels({
+        owner: github_1.context.issue.owner,
+        repo: github_1.context.issue.repo,
+        issue_number: github_1.context.issue.number,
+        labels: [
+            `completed in ${new Date().toLocaleString("en", { month: "long" }).toLowerCase()}`,
+            `completed in ${new Date().getUTCFullYear()}`,
+        ],
+    });
+};
 const onNewIssue = async (octokit) => {
     const key = core_1.getInput("goodreads-key") || process.env.GOODREADS_KEY || process.env.GOODREADS_KEY;
     const secret = core_1.getInput("goodreads-secret") || process.env.GOODREADS_SECRET || process.env.GOODREADS_SECRET;
@@ -16379,7 +16392,7 @@ const onNewIssue = async (octokit) => {
     ];
     try {
         const details = await goodreads_1.search(key, secret, issue.data.title);
-        body += `Congrats on starting **${details.title}** by ${details.author}, I hope you enjoy it! It has an average of ${details.goodreads.averageRating}/5 stars from ${details.goodreads.ratingsCount} ratings on Goodreads.\n\n<details>
+        body += `Congrats on starting **${details.title}** by ${details.author}, I hope you enjoy it! It has an average of ${details.goodreads.averageRating}/5 stars and ${details.goodreads.ratingsCount.toLocaleString()} ratings on [Goodreads](https://www.goodreads.com/book/show/${details.goodreads.id}).\n\n<details>
  <summary>Book details (JSON)</summary>
 
 \`\`\`json
@@ -16390,7 +16403,7 @@ ${JSON.stringify(details, null, 2)}
         labels.push(`${details.author.toLowerCase()}`);
         if (details.year) {
             labels.push(`${details.year} books`);
-            labels.push(`${Math.floor(2016 / 10) * 10}s books`);
+            labels.push(`${Math.floor(details.year / 10) * 10}s books`);
         }
     }
     catch (error) {
@@ -16409,6 +16422,11 @@ ${JSON.stringify(details, null, 2)}
         repo: github_1.context.issue.repo,
         issue_number: github_1.context.issue.number,
         labels,
+    });
+    await octokit.issues.lock({
+        owner: github_1.context.issue.owner,
+        repo: github_1.context.issue.repo,
+        issue_number: github_1.context.issue.number,
     });
 };
 exports.run()
@@ -24544,9 +24562,12 @@ const search = async (key, secret, q) => {
     return {
         title: result.best_book.title,
         author: result.best_book.author.name,
-        image: result.best_book.image_url,
         year: parseInt(result.original_publication_year._),
+        image: `https://images.weserv.nl/?url=${encodeURIComponent(result.best_book.image_url.includes("nophoto")
+            ? result.best_book.image_url
+            : `https://tse2.mm.bing.net/th?q=${encodeURIComponent(`${result.best_book.title} ${result.best_book.author.name}`)}&w=128&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`)}&w=128&h=192&fit=cover`,
         goodreads: {
+            image: result.best_book.image_url,
             id: parseInt(result.best_book.id._),
             ratingsCount: parseFloat(result.ratings_count._),
             averageRating: parseFloat(result.average_rating),

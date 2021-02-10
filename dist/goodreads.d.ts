@@ -5,6 +5,7 @@ interface Book {
     year: number;
     goodreads: {
         id: number;
+        image: string;
         ratingsCount: number;
         averageRating: number;
         authorId: number;
