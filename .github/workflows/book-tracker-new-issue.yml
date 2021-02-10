@@ -1,0 +1,22 @@
+name: "Book Tracker: New Issue"
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  book-tracker:
+    name: Build and publish
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT }}
+      - name: Run Book Tracker
+        uses: AnandChowdhary/book-tracker@HEAD
+        with:
+          command: "onNewIssue"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GOODREADS_KEY: ${{ secrets.GOODREADS_KEY }}
+          GOODREADS_SECRET: ${{ secrets.GOODREADS_SECRET }}
