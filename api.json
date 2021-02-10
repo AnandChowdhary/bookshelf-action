@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "title": "Steve Jobs",
+    "author": "Walter Isaacson",
+    "year": 2011,
+    "image": "https://images.weserv.nl/?url=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fq%3DSteve%2520Jobs%2520Walter%2520Isaacson%26w%3D128%26c%3D7%26rs%3D1%26p%3D0%26dpr%3D3%26pid%3D1.7%26mkt%3Den-IN%26adlt%3Dmoderate&w=128&h=192&fit=cover",
+    "goodreads": {
+      "image": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1511288482l/11084145._SX98_.jpg",
+      "id": 11084145,
+      "ratingsCount": 997426,
+      "averageRating": 4.14,
+      "authorId": 7111
+    },
+    "state": "reading",
+    "startedAt": "2021-02-10T19:36:17.000Z"
+  }
+]
