@@ -21976,6 +21976,8 @@ const updateSummary = async (octokit) => {
                     console.log("Potential comment", comment.body);
                     json = JSON.parse(comment.body.split("```json")[1].split("```")[0]);
                 }
+                else
+                    console.log("Not potential comment", comment.body);
             });
         }
         catch (error) {
