@@ -1,0 +1,10 @@
+{
+  "files": [
+    ".github/**/*",
+    "tsconfig.json",
+    "release.config.js",
+    "jest.config.js",
+    ".prettierrc.cjs",
+    ".npmignore"
+  ]
+}
