@@ -21991,11 +21991,11 @@ const updateSummary = async (octokit) => {
                     : undefined,
             });
     }
-    fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2));
+    await fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
     shelljs_1.exec(`git config --global user.name "github-actions[bot]"`);
     shelljs_1.exec("git add .");
-    shelljs_1.exec('git commit -m ":bento: Update API and README summary"');
+    shelljs_1.exec('git commit -m ":bento: Update API and README summary [skip ci]"');
     shelljs_1.exec("git push");
 };
 exports.run()
