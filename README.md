@@ -19,6 +19,7 @@ Track your reading using repository issues and generate a README.md and open API
 ## 📖 Example
 
 <!--start:book-tracker-->
+<table></table>
 <!--end:book-tracker-->
 
 ## 📄 License

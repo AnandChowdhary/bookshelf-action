@@ -13,8 +13,8 @@
     },
     "state": "completed",
     "startedAt": "2021-02-10T19:36:17.000Z",
-    "completedAt": "2021-02-10T20:21:49.000Z",
-    "timeToCompleteMinutes": 46,
-    "timeToCompleteFormatted": "45 minutes, 32 seconds"
+    "completedAt": "2021-02-10T20:49:36.000Z",
+    "timeToComplete": 4399000,
+    "timeToCompleteFormatted": "1 hour, 13 minutes, 19 seconds"
   }
 ]
