@@ -21986,8 +21986,8 @@ const updateSummary = async (octokit) => {
                 state: issue.state === "open" ? "reading" : "completed",
                 startedAt: new Date(issue.created_at).toISOString(),
                 completedAt: issue.state === "closed" ? new Date(issue.closed_at).toISOString() : undefined,
-                timeToCompleteMinutes: issue.state === "closed"
-                    ? Math.round((new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()) / 60000)
+                timeToComplete: issue.state === "closed"
+                    ? new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
                     : undefined,
                 timeToCompleteFormatted: issue.state === "closed"
                     ? humanize_duration_1.default(new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime())
@@ -21995,6 +21995,46 @@ const updateSummary = async (octokit) => {
             });
     }
     await fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
+    const apiLeft = api.filter((_, i) => i % 2 !== 0);
+    const apiRight = api.filter((_, i) => i % 2 === 0);
+    let mdContent = "<table>";
+    [apiLeft, apiRight].forEach((apiItem) => {
+        apiLeft.forEach((_, i) => {
+            mdContent += "<tr>";
+            if (apiItem[i])
+                mdContent += `<td>
+    <table>
+      <tr>
+        <td>
+          <img alt="" src="${apiItem[i].image}" height="128">
+        </td>   
+        <td>
+          <strong>${apiItem[i].title}</strong><br>
+          ${apiItem[i].author}<br><br>
+          ${apiItem[i].state === "completed" ? "✔️ Completed" : "⌛ Reading"}<br>
+          ${apiItem[i].timeToComplete
+                    ? `⌛ ${humanize_duration_1.default((apiItem[i].timeToComplete || 0) * 60000)}`
+                    : ""}
+          ${apiItem[i].completedAt
+                    ? `📅 ${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })}`
+                    : ""}
+        </td>
+      </tr>
+    </table>
+  </td>
+  `;
+            mdContent += "</tr>";
+        });
+    });
+    mdContent += "</table>";
+    const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
+    await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:book-tracker-->")[0] +
+        `<!--start:book-tracker-->\n${mdContent}\n<!--end:book-tracker-->` +
+        content.split("<!--end:book-tracker-->")[1]);
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
     shelljs_1.exec(`git config --global user.name "github-actions[bot]"`);
     shelljs_1.exec("git add .");
