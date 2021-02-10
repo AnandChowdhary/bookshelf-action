@@ -1,7 +1,7 @@
 {
-  "name": "github-actions-starter",
-  "version": "1.0.5",
-  "description": "Starter for GitHub Actions with TypeScript and automated releases",
+  "name": "book-tracker",
+  "version": "0.0.0",
+  "description": "Track your reading using GitHub Actions",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -10,9 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/koj-co/action.ts.git"
+    "url": "git+https://github.com/AnandChowdhary/book-tracker.git"
   },
   "keywords": [
+    "books",
+    "tracker",
+    "api",
+    "generator",
     "github",
     "github actions",
     "nodejs",
@@ -22,9 +26,9 @@
   "author": "Anand Chowdhary <mail@anandchowdhary.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/koj-co/action.ts/issues"
+    "url": "https://github.com/AnandChowdhary/book-tracker/issues"
   },
-  "homepage": "https://github.com/koj-co/action.ts#readme",
+  "homepage": "https://github.com/AnandChowdhary/book-tracker#readme",
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/jest": "^26.0.14",
