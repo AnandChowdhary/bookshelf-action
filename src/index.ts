@@ -13,7 +13,20 @@ export const run = async () => {
 
   const octokit = getOctokit(token);
   if (COMMAND === "onNewIssue") return onNewIssue(octokit);
+  if (COMMAND === "onCloseIssue") return onCloseIssue(octokit);
   throw new Error("Command not recognized");
+};
+
+const onCloseIssue = async (octokit: InstanceType<typeof GitHub>) => {
+  await octokit.issues.addLabels({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+    labels: [
+      `completed in ${new Date().toLocaleString("en", { month: "long" }).toLowerCase()}`,
+      `completed in ${new Date().getUTCFullYear()}`,
+    ],
+  });
 };
 
 const onNewIssue = async (octokit: InstanceType<typeof GitHub>) => {
@@ -71,6 +84,11 @@ ${JSON.stringify(details, null, 2)}
     repo: context.issue.repo,
     issue_number: context.issue.number,
     labels,
+  });
+  await octokit.issues.lock({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
   });
 };
 
