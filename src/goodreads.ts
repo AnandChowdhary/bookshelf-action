@@ -17,7 +17,7 @@ export const search = async (key: string, secret: string, q: string): Promise<Bo
   const gr = goodreads({ key, secret });
   const results = await gr.searchBooks({ q });
   const result = results.search.results.work.sort(
-    (a, b) => parseInt(a.ratings_count._) - parseInt(b.ratings_count._)
+    (a, b) => (parseInt(a.ratings_count._) || 0) - (parseInt(b.ratings_count._) || 0)
   )[0];
   if (!result) throw new Error("Book not found");
   return {
