@@ -33,6 +33,7 @@
     "@semantic-release/git": "^9.0.0",
     "@types/humanize-duration": "^3.18.1",
     "@types/jest": "^26.0.14",
+    "@types/shelljs": "^0.8.8",
     "@zeit/ncc": "^0.22.3",
     "jest": "^26.5.2",
     "semantic-release": "^17.1.2",
@@ -45,7 +46,8 @@
     "@actions/github": "^4.0.0",
     "@koj/config": "^1.2.5",
     "goodreads-api-node": "^0.0.12",
-    "humanize-duration": "^3.25.1"
+    "humanize-duration": "^3.25.1",
+    "shelljs": "^0.8.4"
   },
   "jest": {
     "roots": [
