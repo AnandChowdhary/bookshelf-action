@@ -42,7 +42,8 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "@koj/config": "^1.2.5"
+    "@koj/config": "^1.2.5",
+    "goodreads-api-node": "^0.0.12"
   },
   "jest": {
     "roots": [
