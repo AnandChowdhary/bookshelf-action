@@ -1,6 +1,11 @@
 import { getInput, setFailed } from "@actions/core";
-import { getOctokit, context } from "@actions/github";
+import { context, getOctokit } from "@actions/github";
 import { GitHub } from "@actions/github/lib/utils";
+import { writeFile } from "fs/promises";
+import humanizeDuration from "humanize-duration";
+import { join } from "path";
+import { exec } from "shelljs";
+import type { Book } from "./goodreads";
 import { search } from "./goodreads";
 
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
@@ -18,6 +23,19 @@ export const run = async () => {
 };
 
 const onCloseIssue = async (octokit: InstanceType<typeof GitHub>) => {
+  const issue = await octokit.issues.get({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+  });
+  await octokit.issues.createComment({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+    body: `You completed this book in ${humanizeDuration(
+      new Date(issue.data.closed_at).getTime() - new Date(issue.data.created_at).getTime()
+    )}, great job!`,
+  });
   await octokit.issues.addLabels({
     owner: context.issue.owner,
     repo: context.issue.repo,
@@ -27,6 +45,7 @@ const onCloseIssue = async (octokit: InstanceType<typeof GitHub>) => {
       `completed in ${new Date().getUTCFullYear()}`,
     ],
   });
+  updateSummary(octokit);
 };
 
 const onNewIssue = async (octokit: InstanceType<typeof GitHub>) => {
@@ -90,6 +109,61 @@ ${JSON.stringify(details, null, 2)}
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
+  updateSummary(octokit);
+};
+
+const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
+  const issues = await octokit.issues.listForRepo({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    labels: "book",
+  });
+  const api: (Book & {
+    state: "reading" | "completed";
+    startedAt: string;
+    completedAt?: string;
+    timeToCompleteMinutes?: number;
+    timeToCompleteFormatted?: string;
+  })[] = [];
+  for await (const issue of issues.data) {
+    const comments = await octokit.issues.listComments({
+      owner: context.issue.owner,
+      repo: context.issue.repo,
+      issue_number: issue.number,
+    });
+    let json: Book | undefined = undefined;
+    try {
+      comments.data.forEach((comment) => {
+        if (comment.body.includes("Book details (JSON)"))
+          json = JSON.parse(comment.body.split("```json")[1].split("```")[0]) as Book;
+      });
+    } catch (error) {}
+    if (json)
+      api.push({
+        ...(json as Book),
+        state: issue.state === "open" ? "reading" : "completed",
+        startedAt: new Date(issue.created_at).toISOString(),
+        completedAt: issue.state === "closed" ? new Date(issue.closed_at).toISOString() : undefined,
+        timeToCompleteMinutes:
+          issue.state === "closed"
+            ? Math.round(
+                (new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()) / 60000
+              )
+            : undefined,
+        timeToCompleteFormatted:
+          issue.state === "closed"
+            ? humanizeDuration(
+                new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
+              )
+            : undefined,
+      });
+  }
+  await writeFile(join(".", "api.json"), JSON.stringify(api, null, 2));
+  exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
+  exec(`git config --global user.name "github-actions[bot]"`);
+  exec("git add .");
+  exec('git commit -m ":bento: Update API and README summary"');
+  exec("git push");
 };
 
 run()

@@ -1,6 +1,6 @@
 import goodreads from "goodreads-api-node";
 
-interface Book {
+export interface Book {
   title: string;
   author: string;
   image: string;
@@ -28,7 +28,7 @@ export const search = async (key: string, secret: string, q: string): Promise<Bo
     author: result.best_book.author.name,
     year: parseInt(result.original_publication_year._),
     image: `https://images.weserv.nl/?url=${encodeURIComponent(
-      result.best_book.image_url.includes("nophoto")
+      !result.best_book.image_url.includes("nophoto")
         ? result.best_book.image_url
         : `https://tse2.mm.bing.net/th?q=${encodeURIComponent(
             `${result.best_book.title} ${result.best_book.author.name}`
