@@ -1,7 +1,7 @@
-name: "Book Tracker: New Issue"
+name: "Book Tracker: Close Issue"
 on:
   issues:
-    types: [opened]
+    types: [closed]
 jobs:
   book-tracker:
     name: Book Tracker
@@ -15,8 +15,6 @@ jobs:
       - name: Run Book Tracker
         uses: AnandChowdhary/book-tracker@HEAD
         with:
-          command: "onNewIssue"
+          command: "onCloseIssue"
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
-          GOODREADS_KEY: ${{ secrets.GOODREADS_KEY }}
-          GOODREADS_SECRET: ${{ secrets.GOODREADS_SECRET }}
