@@ -21962,6 +21962,7 @@ const updateSummary = async (octokit) => {
         repo: github_1.context.issue.repo,
         labels: "book",
     });
+    console.log("Issues", issues.data.length);
     const api = [];
     for await (const issue of issues.data) {
         const comments = await octokit.issues.listComments({
@@ -21969,6 +21970,7 @@ const updateSummary = async (octokit) => {
             repo: github_1.context.issue.repo,
             issue_number: issue.number,
         });
+        console.log("Comments", comments);
         let json = undefined;
         try {
             comments.data.forEach((comment) => {
