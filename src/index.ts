@@ -1,7 +1,7 @@
 import { getInput, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { GitHub } from "@actions/github/lib/utils";
-import { writeFile } from "fs/promises";
+import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
 import { join } from "path";
 import { exec } from "shelljs";
@@ -158,7 +158,7 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
             : undefined,
       });
   }
-  await writeFile(join(".", "api.json"), JSON.stringify(api, null, 2));
+  promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2));
   exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
   exec(`git config --global user.name "github-actions[bot]"`);
   exec("git add .");
