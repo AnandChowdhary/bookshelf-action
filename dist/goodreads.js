@@ -17,7 +17,7 @@ const search = async (key, secret, q) => {
         title: result.best_book.title,
         author: result.best_book.author.name,
         year: parseInt(result.original_publication_year._),
-        image: `https://images.weserv.nl/?url=${encodeURIComponent(result.best_book.image_url.includes("nophoto")
+        image: `https://images.weserv.nl/?url=${encodeURIComponent(!result.best_book.image_url.includes("nophoto")
             ? result.best_book.image_url
             : `https://tse2.mm.bing.net/th?q=${encodeURIComponent(`${result.best_book.title} ${result.best_book.author.name}`)}&w=128&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`)}&w=128&h=192&fit=cover`,
         goodreads: {

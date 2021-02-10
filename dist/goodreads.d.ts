@@ -1,4 +1,4 @@
-interface Book {
+export interface Book {
     title: string;
     author: string;
     image: string;
@@ -12,4 +12,3 @@ interface Book {
     };
 }
 export declare const search: (key: string, secret: string, q: string) => Promise<Book>;
-export {};
