@@ -1,7 +1,6 @@
-name: "Book Tracker: New Issue"
-on:
-  issue_comment:
-    types: [created]
+name: "Book Tracker: New Issue"on:
+  issues:
+    types: [opened]
 jobs:
   book-tracker:
     name: Build and publish
