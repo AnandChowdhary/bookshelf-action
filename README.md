@@ -1,6 +1,6 @@
-# 🎬 GitHub Actions Starter
+# 📚 Books Tracker
 
-GitHub Actions starter for TypeScript with automated releases to `dist`, Semantic Release, and auto-PR merges.
+Track your reading using repository issues and generate a README.md and open API automagically.
 
 [![Build CI](https://github.com/AnandChowdhary/book-tracker/workflows/Build%20CI/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Build+CI%22)
 [![Test CI](https://github.com/AnandChowdhary/book-tracker/workflows/Test%20CI/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Test+CI%22)
@@ -9,23 +9,14 @@ GitHub Actions starter for TypeScript with automated releases to `dist`, Semanti
 
 ## ⭐ Features
 
-- Write source in TypeScript
-- Auto-publish compiled code to `dist/`
-- Semantic Release to GitHub and npm
-- Includes Actions Core and Octokit
-
-[**Create a repository using this template →**](https://github.com/AnandChowdhary/book-tracker/generate)
+- [ ] Add new books by opening issues
+- [ ] Track reading progress with issue comments
+- [ ] Mark books as completed by closing issues
+- [ ] Auto-summarize reading progress on README.md
+- [ ] Fetch rich metadata for books like cover and ISBN
+- [ ] Generate open data JSON API files
 
 ## 📄 License
 
-- Code: [MIT](./LICENSE) © [Koj](https://koj.co)
+- Code: [MIT](./LICENSE) © [Anand Chowdhary](https://anandchowdhary.com)
 - "GitHub" is a trademark of GitHub, Inc.
-
-<p align="center">
-  <a href="https://koj.co">
-    <img width="44" alt="Koj" src="https://kojcdn.com/v1598284251/website-v2/koj-github-footer_m089ze.svg">
-  </a>
-</p>
-<p align="center">
-  <sub>An open source project by <a href="https://koj.co">Koj</a>. <br> <a href="https://koj.co">Furnish your home in style, for as low as CHF175/month →</a></sub>
-</p>

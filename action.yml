@@ -1,14 +1,9 @@
-name: "Action.ts"
-description: "GitHub Actions starter for TypeScript with automated releases"
-author: "Koj <https://github.com/koj.co>"
-inputs:
-  milliseconds:
-    required: true
-    description: "Number of milliseconds to wait"
-    default: "1000"
+name: "Books Tracker"
+description: "Track your reading using GitHub Actions"
+author: "Anand Chowdhary <https://github.com/AnandChowdhary>"
 runs:
   using: "node12"
   main: "dist/index.js"
 branding:
-  icon: "umbrella"
+  icon: "book-open"
   color: "purple"
