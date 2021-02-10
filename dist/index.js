@@ -7905,12 +7905,7 @@ module.exports = {"$id":"browser.json#","$schema":"http://json-schema.org/draft-
 /***/ }),
 /* 223 */,
 /* 224 */,
-/* 225 */
-/***/ (function(module) {
-
-module.exports = require("fs/promises");
-
-/***/ }),
+/* 225 */,
 /* 226 */
 /***/ (function(module) {
 
@@ -21859,7 +21854,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = void 0;
 const core_1 = __webpack_require__(470);
 const github_1 = __webpack_require__(469);
-const promises_1 = __webpack_require__(225);
+const fs_1 = __webpack_require__(747);
 const humanize_duration_1 = __importDefault(__webpack_require__(245));
 const path_1 = __webpack_require__(622);
 const shelljs_1 = __webpack_require__(739);
@@ -21996,7 +21991,7 @@ const updateSummary = async (octokit) => {
                     : undefined,
             });
     }
-    await promises_1.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2));
+    fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2));
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
     shelljs_1.exec(`git config --global user.name "github-actions[bot]"`);
     shelljs_1.exec("git add .");
