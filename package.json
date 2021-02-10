@@ -31,6 +31,7 @@
   "homepage": "https://github.com/AnandChowdhary/book-tracker#readme",
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
+    "@types/humanize-duration": "^3.18.1",
     "@types/jest": "^26.0.14",
     "@zeit/ncc": "^0.22.3",
     "jest": "^26.5.2",
@@ -43,7 +44,8 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "@koj/config": "^1.2.5",
-    "goodreads-api-node": "^0.0.12"
+    "goodreads-api-node": "^0.0.12",
+    "humanize-duration": "^3.25.1"
   },
   "jest": {
     "roots": [
