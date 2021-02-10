@@ -1,4 +1,5 @@
-name: "Book Tracker: New Issue"on:
+name: "Book Tracker: New Issue"
+on:
   issues:
     types: [opened]
 jobs:
