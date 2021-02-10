@@ -16,6 +16,11 @@ Track your reading using repository issues and generate a README.md and open API
 - [ ] Fetch rich metadata for books like cover and ISBN
 - [ ] Generate open data JSON API files
 
+## 📖 Example
+
+<!--start:book-tracker-->
+<!--end:book-tracker-->
+
 ## 📄 License
 
 - Code: [MIT](./LICENSE) © [Anand Chowdhary](https://anandchowdhary.com)
