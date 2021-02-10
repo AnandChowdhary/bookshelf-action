@@ -8,7 +8,9 @@ const goodreads_api_node_1 = __importDefault(require("goodreads-api-node"));
 const search = async (key, secret, q) => {
     const gr = goodreads_api_node_1.default({ key, secret });
     const results = await gr.searchBooks({ q });
-    const result = results.search.results.work.sort((a, b) => (parseInt(a.ratings_count._) || 0) - (parseInt(b.ratings_count._) || 0))[0];
+    const result = Array.isArray(results.search.results.work)
+        ? results.search.results.work.sort((a, b) => (parseInt(b.ratings_count._) || 0) - (parseInt(a.ratings_count._) || 0))[0]
+        : results.search.results.work;
     if (!result)
         throw new Error("Book not found");
     return {
