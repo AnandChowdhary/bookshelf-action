@@ -117,8 +117,8 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
     owner: context.issue.owner,
     repo: context.issue.repo,
     labels: "book",
+    state: "all",
   });
-  console.log("Issues", issues.data.length);
   const api: (Book & {
     state: "reading" | "completed";
     startedAt: string;
@@ -132,14 +132,11 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
       repo: context.issue.repo,
       issue_number: issue.number,
     });
-    console.log("Comments", comments);
     let json: Book | undefined = undefined;
     try {
       comments.data.forEach((comment) => {
-        if (comment.body.includes("Book details (JSON)")) {
-          console.log("Potential comment", comment.body);
+        if (comment.body.includes("Book details (JSON)"))
           json = JSON.parse(comment.body.split("```json")[1].split("```")[0]) as Book;
-        } else console.log("Not potential comment", comment.body);
       });
     } catch (error) {
       console.log("JSON parsing error", error);
