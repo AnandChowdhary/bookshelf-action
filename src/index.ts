@@ -7,7 +7,7 @@ const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKE
 const [owner, repo] = (process.env.GITHUB_REPOSITORY || "").split("/");
 
 export const run = async () => {
-  const COMMAND = process.argv.pop();
+  const COMMAND = getInput("command");
   if (!COMMAND) throw new Error("Command not found");
   if (!token) throw new Error("GitHub token not found");
 
