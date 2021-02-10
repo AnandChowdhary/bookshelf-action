@@ -21972,11 +21972,15 @@ const updateSummary = async (octokit) => {
         let json = undefined;
         try {
             comments.data.forEach((comment) => {
-                if (comment.body.includes("Book details (JSON)"))
+                if (comment.body.includes("Book details (JSON)")) {
+                    console.log("Potential comment", comment.body);
                     json = JSON.parse(comment.body.split("```json")[1].split("```")[0]);
+                }
             });
         }
-        catch (error) { }
+        catch (error) {
+            console.log("JSON parsing error", error);
+        }
         if (json)
             api.push({
                 ...json,
