@@ -38,9 +38,11 @@ const onNewIssue = async (octokit: InstanceType<typeof GitHub>) => {
     const details = await search(key, secret, issue.data.title);
     body += `Congrats on starting **${details.title}** by ${
       details.author
-    }, I hope you enjoy it! It has an average of ${details.goodreads.averageRating}/5 stars from ${
-      details.goodreads.ratingsCount
-    } ratings on Goodreads.\n\n<details>
+    }, I hope you enjoy it! It has an average of ${
+      details.goodreads.averageRating
+    }/5 stars and ${details.goodreads.ratingsCount.toLocaleString()} ratings on [Goodreads](https://www.goodreads.com/book/show/${
+      details.goodreads.id
+    }).\n\n<details>
  <summary>Book details (JSON)</summary>
 
 \`\`\`json
@@ -51,7 +53,7 @@ ${JSON.stringify(details, null, 2)}
     labels.push(`${details.author.toLowerCase()}`);
     if (details.year) {
       labels.push(`${details.year} books`);
-      labels.push(`${Math.floor(2016 / 10) * 10}s books`);
+      labels.push(`${Math.floor(details.year / 10) * 10}s books`);
     }
   } catch (error) {
     body +=
