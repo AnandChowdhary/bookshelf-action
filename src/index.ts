@@ -158,11 +158,11 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
             : undefined,
       });
   }
-  promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2));
+  await promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
   exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
   exec(`git config --global user.name "github-actions[bot]"`);
   exec("git add .");
-  exec('git commit -m ":bento: Update API and README summary"');
+  exec('git commit -m ":bento: Update API and README summary [skip ci]"');
   exec("git push");
 };
 
