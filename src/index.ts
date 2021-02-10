@@ -118,6 +118,7 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
     repo: context.issue.repo,
     labels: "book",
   });
+  console.log("Issues", issues.data.length);
   const api: (Book & {
     state: "reading" | "completed";
     startedAt: string;
@@ -131,6 +132,7 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
       repo: context.issue.repo,
       issue_number: issue.number,
     });
+    console.log("Comments", comments);
     let json: Book | undefined = undefined;
     try {
       comments.data.forEach((comment) => {
