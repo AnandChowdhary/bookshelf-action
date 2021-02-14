@@ -43,6 +43,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
             const currentPercentage = issue.title.match(/\(\d+\%\)/g);
             api.push({
                 ...json,
+                issueNumber: issue.number,
                 progressPercent: currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
                     ? parseInt(currentPercentage[0])
                     : 0,
@@ -70,36 +71,41 @@ const updateSummary = async (owner, repo, context, octokit) => {
     let mdContent = "<table>";
     [apiLeft, apiRight].forEach((apiItem) => {
         apiItem.forEach((_, i) => {
-            mdContent += "<tr>";
+            if (i % 2 === 0)
+                mdContent += "<tr>";
             if (apiItem[i])
                 mdContent += `<td>
     <table>
       <tr>
         <td>
-          <img alt="" src="${apiItem[i].image}" height="128">
+          <a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}"><img alt="" src="${apiItem[i].image}" height="128"></a>
         </td>   
         <td>
-          <strong>${apiItem[i].title}</strong><br>
-          ${apiItem[i].authors.join(", ")}<br><br>
+          <strong><a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}">${apiItem[i].title}</a></strong><br>
+          ${apiItem[i].authors
+                    .map((i) => `<a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+label%3A%22author%3A+${encodeURIComponent(i)}%22">${i}</a>`)
+                    .join(", ")}<br><br>
           ${apiItem[i].state === "completed"
-                    ? "✔️ Completed"
+                    ? `✔️ <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed">Completed</a><br>${apiItem[i].timeToComplete
+                        ? `⌛ ${humanize_duration_1.default(apiItem[i].timeToComplete || 0)}`
+                        : ""}`
                     : `⌛ Reading${apiItem[i].progressPercent ? ` (${apiItem[i].progressPercent}%)` : ""}`}<br>
-          ${apiItem[i].timeToComplete
-                    ? `⌛ ${humanize_duration_1.default((apiItem[i].timeToComplete || 0) * 60000)}`
-                    : ""}
           ${apiItem[i].completedAt
-                    ? `📅 ${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
-                        year: "numeric",
+                    ? `📅 <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(apiItem[i].completedAt || 0)
+                        .toLocaleDateString("en", {
                         month: "long",
-                        day: "numeric",
-                    })}`
+                    })
+                        .toLowerCase()}%22">${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
+                        month: "long",
+                    })}</a> <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(apiItem[i].completedAt || 0).getUTCFullYear()}%22#">${new Date(apiItem[i].completedAt || 0).getUTCFullYear()}</a>`
                     : ""}
         </td>
       </tr>
     </table>
   </td>
   `;
-            mdContent += "</tr>";
+            if (i % 2 === 0)
+                mdContent += "</tr>";
         });
     });
     mdContent += "</table>";
