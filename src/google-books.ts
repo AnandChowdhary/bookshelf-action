@@ -5,7 +5,7 @@ export interface Book {
   id: string;
   volumeInfo: {
     title: string;
-    authors: string;
+    authors: string[];
     publisher: string;
     publishedDate: string;
     description: string;
@@ -35,7 +35,29 @@ export interface Book {
   };
 }
 
-export const search = async (q: string) => {
+export interface BookResult {
+  title: string;
+  authors: string[];
+  publisher: string;
+  publishedDate: string;
+  description: string;
+  image: string;
+  language: string;
+  averageRating: number;
+  ratingsCount: number;
+  categories: string[];
+  pageCount: number;
+  isbn10?: string;
+  isbn13?: string;
+  googleBooks: {
+    id: string;
+    preview: string;
+    info: string;
+    canonical: string;
+  };
+}
+
+export const search = async (q: string): Promise<BookResult> => {
   const results = await got<{
     items: Book[];
   }>(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`);
@@ -56,8 +78,10 @@ export const search = async (q: string) => {
     ratingsCount: result.volumeInfo.ratingsCount,
     categories: result.volumeInfo.categories,
     pageCount: result.volumeInfo.pageCount,
-    isbn10: result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_10"),
-    isbn13: result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_13"),
+    isbn10: (result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_10") || {})
+      .identifier,
+    isbn13: (result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_13") || {})
+      .identifier,
     googleBooks: {
       id: result.id,
       preview: result.volumeInfo.previewLink,
