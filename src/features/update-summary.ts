@@ -4,8 +4,8 @@ import type { GitHub } from "@actions/github/lib/utils";
 import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
 import { join } from "path";
-import { exec } from "shelljs";
 import { format } from "prettier";
+import { exec } from "shelljs";
 import { addDetailsToLabels } from "../github";
 import { BookResult } from "../google-books";
 
@@ -69,81 +69,39 @@ export const updateSummary = async (
           issue.state === "closed"
             ? humanizeDuration(
                 new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
-              )
+              ).split(",")[0]
             : undefined,
       });
     } else debug(`Unable to find JSON data for #${issue.id}`);
   }
   await promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
   debug("Written api.json file");
-  const apiLeft = api.filter((_, i) => i % 2 !== 0);
-  const apiRight = api.filter((_, i) => i % 2 === 0);
   debug(`api has length ${api.length}`);
-  debug(`apiLeft has length ${apiLeft.length}`);
-  debug(`apiRight has length ${apiRight.length}`);
-  let mdContent = "<table>";
-  [apiLeft, apiRight].forEach((apiItem) => {
-    apiItem.forEach((_, i) => {
-      if (i % 2 === 0) mdContent += "<tr>";
-      if (apiItem[i])
-        mdContent += `<td>
-    <table>
-      <tr>
-        <td>
-          <a href="https://github.com/${owner}/${repo}/issues/${
-          apiItem[i].issueNumber
-        }"><img alt="" src="${apiItem[i].image}" height="128"></a>
-        </td>   
-        <td>
-          <strong><a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}">${
-          apiItem[i].title
-        }</a></strong><br>
-          ${apiItem[i].authors
-            .map(
-              (i) =>
-                `<a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+label%3A%22author%3A+${encodeURIComponent(
-                  i
-                )}%22">${i}</a>`
-            )
-            .join(", ")}<br><br>
-          ${
-            apiItem[i].state === "completed"
-              ? `✔️ <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed">Completed</a><br>${
-                  apiItem[i].timeToComplete
-                    ? `⌛ ${humanizeDuration(apiItem[i].timeToComplete || 0)}`
-                    : ""
-                }`
-              : `⌛ Reading${apiItem[i].progressPercent ? ` (${apiItem[i].progressPercent}%)` : ""}`
-          }<br>
-          ${
-            apiItem[i].completedAt
-              ? `📅 <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(
-                  apiItem[i].completedAt || 0
-                )
-                  .toLocaleDateString("en", {
-                    month: "long",
-                  })
-                  .toLowerCase()}%22">${new Date(apiItem[i].completedAt || 0).toLocaleDateString(
-                  "en",
-                  {
-                    month: "long",
-                  }
-                )}</a> <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(
-                  apiItem[i].completedAt || 0
-                ).getUTCFullYear()}%22#">${new Date(
-                  apiItem[i].completedAt || 0
-                ).getUTCFullYear()}</a>`
-              : ""
-          }
-        </td>
-      </tr>
-    </table>
-  </td>
-  `;
-      if (i % 2 === 0) mdContent += "</tr>";
-    });
-  });
-  mdContent += "</table>";
+  let mdContent = "";
+  const apiCompleted = api.filter((i) => i.state === "completed");
+  const apiReading = api.filter((i) => i.state === "reading");
+  if (apiReading.length)
+    mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
+      .map(
+        (i) =>
+          `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${
+            i.title
+          } by ${i.authors.join(", ")}"><img alt="${i.title}" src="${i.image}"></a>`
+      )
+      .join("\n")}`;
+  if (apiCompleted.length)
+    mdContent += `### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
+      .map(
+        (i) =>
+          `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${
+            i.title
+          } by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(
+            i.completedAt || ""
+          ).toLocaleDateString("en-us", { month: "long" })}"><img alt="${i.title}" src="${
+            i.image
+          }"></a>`
+      )
+      .join("\n")}`;
   debug(`Generated README.md content of length ${mdContent.length}`);
   const content = await promises.readFile(join(".", "README.md"), "utf8");
   debug(`Read README.md file of length ${content.length}`);
