@@ -122,13 +122,14 @@ export const updateSummary = async (
   });
   mdContent += "</table>";
   debug(`Generated README.md content of length ${mdContent.length}`);
-  debug(mdContent);
   const content = await promises.readFile(join(".", "README.md"), "utf8");
   debug(`Read README.md file of length ${content.length}`);
   await promises.writeFile(
     join(".", "README.md"),
     content.split("<!--start:bookshelf-action-->")[0] +
-      `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
+      `<!--start:bookshelf-action-->\n${format(mdContent, {
+        parser: "html",
+      })}\n<!--end:bookshelf-action-->` +
       content.split("<!--end:bookshelf-action-->")[1]
   );
   debug("Written README.md file");
