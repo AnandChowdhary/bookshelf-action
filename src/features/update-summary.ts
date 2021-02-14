@@ -95,14 +95,13 @@ export const updateSummary = async (
           ${apiItem[i].authors.join(", ")}<br><br>
           ${
             apiItem[i].state === "completed"
-              ? "✔️ Completed"
+              ? `✔️ Completed<br>${
+                  apiItem[i].timeToComplete
+                    ? `⌛ ${humanizeDuration(apiItem[i].timeToComplete || 0)}`
+                    : ""
+                }`
               : `⌛ Reading${apiItem[i].progressPercent ? ` (${apiItem[i].progressPercent}%)` : ""}`
           }<br>
-          ${
-            apiItem[i].timeToComplete
-              ? `⌛ ${humanizeDuration((apiItem[i].timeToComplete || 0) * 60000)}`
-              : ""
-          }
           ${
             apiItem[i].completedAt
               ? `📅 ${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
