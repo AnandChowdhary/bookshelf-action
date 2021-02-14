@@ -1,6 +1,7 @@
 import { debug } from "@actions/core";
 import { Context } from "@actions/github/lib/context";
 import type { GitHub } from "@actions/github/lib/utils";
+import { config, cosmic } from "@anandchowdhary/cosmic";
 import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
 import { join } from "path";
@@ -16,6 +17,10 @@ export const updateSummary = async (
   octokit: InstanceType<typeof GitHub>
 ) => {
   debug("Starting updateSummary");
+  try {
+    await cosmic("bookshelf");
+    debug("Got config object");
+  } catch (error) {}
   const issues = await octokit.issues.listForRepo({
     owner: context.issue.owner,
     repo: context.issue.repo,
@@ -51,6 +56,14 @@ export const updateSummary = async (
     if (json) {
       debug(`Found JSON data for ${(json as BookResult).title}`);
       const currentPercentage = issue.title.match(/\(\d+\%\)/g);
+      const overwrites =
+        config("overwrites") || ({} as Record<number, { started: string; completed: string }>);
+      const openedAt = (overwrites[issue.number] || {}).started
+        ? overwrites[issue.number].started
+        : issue.created_at;
+      const closedAt = (overwrites[issue.number] || {}).completed
+        ? overwrites[issue.number].completed
+        : issue.closed_at;
       api.push({
         ...(json as BookResult),
         issueNumber: issue.number,
@@ -59,17 +72,17 @@ export const updateSummary = async (
             ? parseInt(currentPercentage[0])
             : 0,
         state: issue.state === "open" ? "reading" : "completed",
-        startedAt: new Date(issue.created_at).toISOString(),
-        completedAt: issue.state === "closed" ? new Date(issue.closed_at).toISOString() : undefined,
+        startedAt: new Date(openedAt).toISOString(),
+        completedAt: issue.state === "closed" ? new Date(closedAt).toISOString() : undefined,
         timeToComplete:
           issue.state === "closed"
-            ? new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
+            ? new Date(closedAt).getTime() - new Date(openedAt).getTime()
             : undefined,
         timeToCompleteFormatted:
           issue.state === "closed"
-            ? humanizeDuration(
-                new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
-              ).split(",")[0]
+            ? humanizeDuration(new Date(closedAt).getTime() - new Date(openedAt).getTime()).split(
+                ","
+              )[0]
             : undefined,
       });
     } else debug(`Unable to find JSON data for #${issue.id}`);
