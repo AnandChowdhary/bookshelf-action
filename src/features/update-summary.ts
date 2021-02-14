@@ -5,6 +5,7 @@ import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
 import { join } from "path";
 import { exec } from "shelljs";
+import { format } from "prettier";
 import { addDetailsToLabels } from "../github";
 import { BookResult } from "../google-books";
 
