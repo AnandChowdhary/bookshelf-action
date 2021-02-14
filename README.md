@@ -29,18 +29,26 @@ Track your reading using repository issues and generate a README.md and open API
       <table>
         <tr>
           <td>
-            <img
-              alt=""
-              src="http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-              height="128"
-            />
+            <a
+              href="https://github.com/AnandChowdhary/bookshelf-action/issues/16"
+              ><img
+                alt=""
+                src="http://books.google.com/books/content?id=620pAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+                height="128"
+            /></a>
           </td>
           <td>
-            <strong>1984</strong><br />
-            George Orwell<br /><br />
-            ✔️ Completed<br />
-            ⌛ 8 years, 9 months, 2 days, 16 hours, 10 minutes 📅 February 14,
-            2021
+            <strong
+              ><a
+                href="https://github.com/AnandChowdhary/bookshelf-action/issues/16"
+                >The Hard Thing About Hard Things</a
+              ></strong
+            ><br />
+            <a
+              href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+Ben%20Horowitz%22"
+              >Ben Horowitz</a
+            ><br /><br />
+            ⌛ Reading<br />
           </td>
         </tr>
       </table>
@@ -51,21 +59,71 @@ Track your reading using repository issues and generate a README.md and open API
       <table>
         <tr>
           <td>
-            <img
-              alt=""
-              src="http://books.google.com/books/content?id=620pAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              height="128"
-            />
+            <a
+              href="https://github.com/AnandChowdhary/bookshelf-action/issues/17"
+              ><img
+                alt=""
+                src="http://books.google.com/books/content?id=y9_mxZLYiiMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+                height="128"
+            /></a>
           </td>
           <td>
-            <strong>The Hard Thing About Hard Things</strong><br />
-            Ben Horowitz<br /><br />
+            <strong
+              ><a
+                href="https://github.com/AnandChowdhary/bookshelf-action/issues/17"
+                >Lean In</a
+              ></strong
+            ><br />
+            <a
+              href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+Sheryl%20Sandberg%22"
+              >Sheryl Sandberg</a
+            ><br /><br />
             ⌛ Reading<br />
           </td>
         </tr>
       </table>
     </td>
   </tr>
+  <td>
+    <table>
+      <tr>
+        <td>
+          <a href="https://github.com/AnandChowdhary/bookshelf-action/issues/13"
+            ><img
+              alt=""
+              src="http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+              height="128"
+          /></a>
+        </td>
+        <td>
+          <strong
+            ><a
+              href="https://github.com/AnandChowdhary/bookshelf-action/issues/13"
+              >1984</a
+            ></strong
+          ><br />
+          <a
+            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+George%20Orwell%22"
+            >George Orwell</a
+          ><br /><br />
+          ✔️
+          <a
+            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed"
+            >Completed</a
+          ><br />⌛ 1 hour, 16 minutes, 46 seconds<br />
+          📅
+          <a
+            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+february%22"
+            >February</a
+          >
+          <a
+            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+2021%22#"
+            >2021</a
+          >
+        </td>
+      </tr>
+    </table>
+  </td>
 </table>
 
 <!--end:bookshelf-action-->

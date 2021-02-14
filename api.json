@@ -1,5 +1,34 @@
 [
   {
+    "title": "Lean In",
+    "authors": [
+      "Sheryl Sandberg"
+    ],
+    "publisher": "Knopf",
+    "publishedDate": "2013-03-11",
+    "description": "The #1 international best seller In Lean In, Sheryl Sandberg reignited the conversation around women in the workplace. Sandberg is chief operating officer of Facebook and coauthor of Option B with Adam Grant. In 2010, she gave an electrifying TED talk in which she described how women unintentionally hold themselves back in their careers. Her talk, which has been viewed more than six million times, encouraged women to “sit at the table,” seek challenges, take risks, and pursue their goals with gusto. Lean In continues that conversation, combining personal anecdotes, hard data, and compelling research to change the conversation from what women can’t do to what they can. Sandberg provides practical advice on negotiation techniques, mentorship, and building a satisfying career. She describes specific steps women can take to combine professional achievement with personal fulfillment, and demonstrates how men can benefit by supporting women both in the workplace and at home. Written with humor and wisdom, Lean In is a revelatory, inspiring call to action and a blueprint for individual growth that will empower women around the world to achieve their full potential.",
+    "image": "http://books.google.com/books/content?id=y9_mxZLYiiMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "language": "en",
+    "averageRating": 3.5,
+    "ratingsCount": 3751,
+    "categories": [
+      "Biography & Autobiography"
+    ],
+    "pageCount": 240,
+    "isbn10": "0385349955",
+    "isbn13": "9780385349956",
+    "googleBooks": {
+      "id": "y9_mxZLYiiMC",
+      "preview": "http://books.google.com/books?id=y9_mxZLYiiMC&printsec=frontcover&dq=intitle:Lean+In+by+Sheryl+Sandberg&hl=&cd=1&source=gbs_api",
+      "info": "https://play.google.com/store/books/details?id=y9_mxZLYiiMC&source=gbs_api",
+      "canonical": "https://play.google.com/store/books/details?id=y9_mxZLYiiMC"
+    },
+    "issueNumber": 17,
+    "progressPercent": 0,
+    "state": "reading",
+    "startedAt": "2021-02-14T14:36:17.000Z"
+  },
+  {
     "title": "The Hard Thing About Hard Things",
     "authors": [
       "Ben Horowitz"
@@ -23,6 +52,7 @@
       "info": "https://play.google.com/store/books/details?id=620pAgAAQBAJ&source=gbs_api",
       "canonical": "https://play.google.com/store/books/details?id=620pAgAAQBAJ"
     },
+    "issueNumber": 16,
     "progressPercent": 0,
     "state": "reading",
     "startedAt": "2021-02-14T14:12:40.000Z"
@@ -51,6 +81,7 @@
       "info": "http://books.google.com/books?id=yxv1LK5gyV4C&dq=intitle:1984+by+George+Orwell&hl=&source=gbs_api",
       "canonical": "https://books.google.com/books/about/1984.html?hl=&id=yxv1LK5gyV4C"
     },
+    "issueNumber": 13,
     "progressPercent": 0,
     "state": "completed",
     "startedAt": "2021-02-14T13:01:09.000Z",
