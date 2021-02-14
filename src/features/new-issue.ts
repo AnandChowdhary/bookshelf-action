@@ -31,8 +31,8 @@ export const onNewIssue = async (
     body += `Congrats on starting **${details.title}** by ${details.authors.join(
       ", "
     )}, I hope you enjoy it! It has an average of ${
-      details.averageRating
-    }/5 stars and ${details.ratingsCount.toLocaleString()} ratings on [Google Books](${
+      details.averageRating || "unknown"
+    }/5 stars and ${(details.ratingsCount || 0).toLocaleString()} ratings on [Google Books](${
       details.googleBooks.info
     }).\n\n<details>
  <summary>Book details (JSON)</summary>
