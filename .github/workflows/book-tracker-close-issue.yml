@@ -1,10 +1,10 @@
-name: "Book Tracker: Close Issue"
+name: "Bookshelf Action: Close Issue"
 on:
   issues:
     types: [closed]
 jobs:
   bookshelf-action:
-    name: Book Tracker
+    name: Bookshelf Action
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -12,7 +12,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_PAT }}
-      - name: Run Book Tracker
+      - name: Run Bookshelf Action
         uses: AnandChowdhary/bookshelf-action@HEAD
         with:
           command: "onCloseIssue"
