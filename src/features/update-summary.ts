@@ -82,7 +82,7 @@ export const updateSummary = async (
   let mdContent = "<table>";
   [apiLeft, apiRight].forEach((apiItem) => {
     apiItem.forEach((_, i) => {
-      mdContent += "<tr>";
+      if (i % 2 === 0) mdContent += "<tr>";
       if (apiItem[i])
         mdContent += `<td>
     <table>
@@ -116,7 +116,7 @@ export const updateSummary = async (
     </table>
   </td>
   `;
-      mdContent += "</tr>";
+      if (i % 2 === 0) mdContent += "</tr>";
     });
   });
   mdContent += "</table>";
