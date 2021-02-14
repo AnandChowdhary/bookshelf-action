@@ -3,6 +3,7 @@ import { context, getOctokit } from "@actions/github";
 import { GitHub } from "@actions/github/lib/utils";
 import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
+import { getByTag } from "locale-codes";
 import { join } from "path";
 import { exec } from "shelljs";
 import type { BookResult } from "./google-books";
@@ -83,7 +84,8 @@ ${JSON.stringify(details, null, 2)}
       labels.push(`year: ${details.publishedDate}`);
       labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
     }
-    if (details.language) labels.push(`language: ${details.language}`);
+    if (details.language)
+      labels.push(`language: ${getByTag(details.language) || details.language}`);
     if (details.publisher) labels.push(`publisher: ${details.publisher}`);
   } catch (error) {
     body +=
