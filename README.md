@@ -13,14 +13,28 @@ Track your reading using repository issues and generate a README.md and open API
 
 ## ⭐ Features
 
-- [x] Add new books by opening issues
-- [x] Track reading progress with issue comments
-- [x] Mark books as completed by closing issues
-- [ ] Auto-summarize reading progress on README.md
-- [ ] Fetch rich metadata for books like cover and ISBN
-- [ ] Generate open data JSON API files
+- End-to-end automated workflow using GitHub issues:
+  - Create GitHub issues to add the books you're reading
+  - Track your reading progress by adding comments to the issue
+  - Close the issue when you've completed the book
+- Get a README.md summary and JSON API for your data
+- Uses Google Books API to fetch details like cover and ISBN
+
+### Get started
+
+This repository only includes the GitHub Actions required as dependencies. To get started, [**visit the AnandChowdhary/books repository**](https://github.com/AnandChowdhary/books) and use it as a starting point. You can use the [Use this template](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) button to create a new repository:
+
+1. Go to [AnandChowdhary/books](https://github.com/AnandChowdhary/books)
+2. Click on the "Use this template" button or fork the repository
+3. Add a book by creating a new issue with the book's name
 
 ## 📖 Example
+
+Simply create issues with names of books, and Bookshelf Action will automatically organize them with labels:
+
+![Screenshot of issues](https://raw.githubusercontent.com/AnandChowdhary/bookshelf-action/master/assets/issues.png)
+
+Additionally, a summary of your reading progress is generated in the `README.md` file:
 
 <!--start:bookshelf-action-->
 <table>
