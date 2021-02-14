@@ -28,6 +28,7 @@ export const onIssueComment = async (
     issue_number: context.issue.number,
   });
   debug(`Got ${comments.data.length} comments in issue`);
+  if (comments.data.length < 2) return debug("Less than 2 comments, skipping");
 
   let json: BookResult | undefined = undefined;
   try {
