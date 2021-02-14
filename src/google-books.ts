@@ -60,9 +60,9 @@ export interface BookResult {
 export const search = async (q: string): Promise<BookResult> => {
   const results = await got<{
     items: Book[];
-  }>(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`);
-  console.log(results.body);
-  console.log(results.body.items);
+  }>(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
+    responseType: "json",
+  });
   const result = results.body.items.sort(
     (a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0)
   )[0];
