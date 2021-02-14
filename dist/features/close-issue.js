@@ -5,16 +5,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.onCloseIssue = void 0;
 const core_1 = require("@actions/core");
+const cosmic_1 = require("@anandchowdhary/cosmic");
+const slugify_1 = __importDefault(require("@sindresorhus/slugify"));
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const update_summary_1 = require("./update-summary");
 const onCloseIssue = async (owner, repo, context, octokit) => {
     core_1.debug("Started onCloseIssue");
+    try {
+        await cosmic_1.cosmic("bookshelf");
+        core_1.debug("Got config object");
+    }
+    catch (error) { }
     const issue = await octokit.issues.get({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
     });
     core_1.debug(`Got issue #${issue.data.number}`);
+    if (cosmic_1.config("users") && Array.isArray(cosmic_1.config("users"))) {
+        if (!cosmic_1.config("users").find((i) => issue.data.user.login))
+            return core_1.debug("User not allowed, skipping");
+    }
     await octokit.issues.unlock({
         owner: context.issue.owner,
         repo: context.issue.repo,
@@ -39,7 +50,7 @@ const onCloseIssue = async (owner, repo, context, octokit) => {
         repo: context.issue.repo,
         issue_number: context.issue.number,
         labels: [
-            `completed: ${new Date().toLocaleString("en", { month: "long" }).toLowerCase()}`,
+            `completed: ${slugify_1.default(new Date().toLocaleString("en", { month: "long" }))}`,
             `completed: ${new Date().getUTCFullYear()}`,
         ],
     });

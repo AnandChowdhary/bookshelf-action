@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateSummary = void 0;
 const core_1 = require("@actions/core");
+const cosmic_1 = require("@anandchowdhary/cosmic");
 const fs_1 = require("fs");
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const path_1 = require("path");
@@ -13,6 +14,11 @@ const shelljs_1 = require("shelljs");
 const github_1 = require("../github");
 const updateSummary = async (owner, repo, context, octokit) => {
     core_1.debug("Starting updateSummary");
+    try {
+        await cosmic_1.cosmic("bookshelf");
+        core_1.debug("Got config object");
+    }
+    catch (error) { }
     const issues = await octokit.issues.listForRepo({
         owner: context.issue.owner,
         repo: context.issue.repo,
@@ -41,6 +47,13 @@ const updateSummary = async (owner, repo, context, octokit) => {
         if (json) {
             core_1.debug(`Found JSON data for ${json.title}`);
             const currentPercentage = issue.title.match(/\(\d+\%\)/g);
+            const overwrites = cosmic_1.config("overwrites") || {};
+            const openedAt = (overwrites[issue.number] || {}).started
+                ? overwrites[issue.number].started
+                : issue.created_at;
+            const closedAt = (overwrites[issue.number] || {}).completed
+                ? overwrites[issue.number].completed
+                : issue.closed_at;
             api.push({
                 ...json,
                 issueNumber: issue.number,
@@ -48,13 +61,13 @@ const updateSummary = async (owner, repo, context, octokit) => {
                     ? parseInt(currentPercentage[0])
                     : 0,
                 state: issue.state === "open" ? "reading" : "completed",
-                startedAt: new Date(issue.created_at).toISOString(),
-                completedAt: issue.state === "closed" ? new Date(issue.closed_at).toISOString() : undefined,
+                startedAt: new Date(openedAt).toISOString(),
+                completedAt: issue.state === "closed" ? new Date(closedAt).toISOString() : undefined,
                 timeToComplete: issue.state === "closed"
-                    ? new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
+                    ? new Date(closedAt).getTime() - new Date(openedAt).getTime()
                     : undefined,
                 timeToCompleteFormatted: issue.state === "closed"
-                    ? humanize_duration_1.default(new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()).split(",")[0]
+                    ? humanize_duration_1.default(new Date(closedAt).getTime() - new Date(openedAt).getTime()).split(",")[0]
                     : undefined,
             });
         }
@@ -72,8 +85,11 @@ const updateSummary = async (owner, repo, context, octokit) => {
             .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")}")`)
             .join("\n")}`;
     if (apiCompleted.length)
-        mdContent += `### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
-            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", { month: "long" })}")`)
+        mdContent += `${apiReading.length ? "\n\n" : ""}### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
+            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
+            month: "long",
+            year: "numeric",
+        })}")`)
             .join("\n")}`;
     core_1.debug(`Generated README.md content of length ${mdContent.length}`);
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
