@@ -19,7 +19,7 @@ export const addDetailsToLabels = async (
   for await (const label of labels.data) {
     let color = label.color;
     let description = label.description;
-    if (label.color === "ededed") color = randomColor({ luminosity: "light" });
+    if (label.color === "ededed") color = randomColor({ luminosity: "light" }).replace("#", "");
     if (label.description === null) {
       if (label.name === "kind: book") description = "This issue tracks a book (reading progress)";
       else if (label.name.startsWith("started: "))
