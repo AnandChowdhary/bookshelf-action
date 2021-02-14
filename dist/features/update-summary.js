@@ -15,7 +15,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
     const issues = await octokit.issues.listForRepo({
         owner: context.issue.owner,
         repo: context.issue.repo,
-        labels: "book",
+        labels: "kind: book",
         state: "all",
     });
     core_1.debug(`Got ${issues.data.length} issues`);

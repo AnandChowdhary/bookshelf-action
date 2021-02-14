@@ -58,7 +58,7 @@ const onIssueComment = async (owner, repo, context, octokit) => {
             if (firstVal.includes("%") && !isNaN(parseInt(firstVal)))
                 progressPercent = parseInt(firstVal);
             else
-                progressPercent = Math.max(Math.round(values[0] / totalPages), 100);
+                progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
     }
     core_1.debug(`Progress is ${progressPercent}%`);
     if (progressPercent !== 0) {
