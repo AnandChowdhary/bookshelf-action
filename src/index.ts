@@ -95,7 +95,7 @@ ${JSON.stringify(details, null, 2)}
     }
     if (details.language)
       labels.push(`language: ${getByTag(details.language).name || details.language}`);
-    if (details.publisher) labels.push(`publisher: ${details.publisher}`);
+    if (details.publisher) labels.push(`publisher: ${details.publisher.toLowerCase()}`);
     debug("Added labels from search results");
   } catch (error) {
     console.log(error);
