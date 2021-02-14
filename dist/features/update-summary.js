@@ -8,8 +8,8 @@ const core_1 = require("@actions/core");
 const fs_1 = require("fs");
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const path_1 = require("path");
-const shelljs_1 = require("shelljs");
 const prettier_1 = require("prettier");
+const shelljs_1 = require("shelljs");
 const github_1 = require("../github");
 const updateSummary = async (owner, repo, context, octokit) => {
     core_1.debug("Starting updateSummary");
@@ -54,7 +54,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
                     ? new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()
                     : undefined,
                 timeToCompleteFormatted: issue.state === "closed"
-                    ? humanize_duration_1.default(new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime())
+                    ? humanize_duration_1.default(new Date(issue.closed_at).getTime() - new Date(issue.created_at).getTime()).split(",")[0]
                     : undefined,
             });
         }
@@ -63,52 +63,18 @@ const updateSummary = async (owner, repo, context, octokit) => {
     }
     await fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
     core_1.debug("Written api.json file");
-    const apiLeft = api.filter((_, i) => i % 2 !== 0);
-    const apiRight = api.filter((_, i) => i % 2 === 0);
     core_1.debug(`api has length ${api.length}`);
-    core_1.debug(`apiLeft has length ${apiLeft.length}`);
-    core_1.debug(`apiRight has length ${apiRight.length}`);
-    let mdContent = "<table>";
-    [apiLeft, apiRight].forEach((apiItem) => {
-        apiItem.forEach((_, i) => {
-            if (i % 2 === 0)
-                mdContent += "<tr>";
-            if (apiItem[i])
-                mdContent += `<td>
-    <table>
-      <tr>
-        <td>
-          <a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}"><img alt="" src="${apiItem[i].image}" height="128"></a>
-        </td>   
-        <td>
-          <strong><a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}">${apiItem[i].title}</a></strong><br>
-          ${apiItem[i].authors
-                    .map((i) => `<a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+label%3A%22author%3A+${encodeURIComponent(i)}%22">${i}</a>`)
-                    .join(", ")}<br><br>
-          ${apiItem[i].state === "completed"
-                    ? `✔️ <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed">Completed</a><br>${apiItem[i].timeToComplete
-                        ? `⌛ ${humanize_duration_1.default(apiItem[i].timeToComplete || 0)}`
-                        : ""}`
-                    : `⌛ Reading${apiItem[i].progressPercent ? ` (${apiItem[i].progressPercent}%)` : ""}`}<br>
-          ${apiItem[i].completedAt
-                    ? `📅 <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(apiItem[i].completedAt || 0)
-                        .toLocaleDateString("en", {
-                        month: "long",
-                    })
-                        .toLowerCase()}%22">${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
-                        month: "long",
-                    })}</a> <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(apiItem[i].completedAt || 0).getUTCFullYear()}%22#">${new Date(apiItem[i].completedAt || 0).getUTCFullYear()}</a>`
-                    : ""}
-        </td>
-      </tr>
-    </table>
-  </td>
-  `;
-            if (i % 2 === 0)
-                mdContent += "</tr>";
-        });
-    });
-    mdContent += "</table>";
+    let mdContent = "";
+    const apiCompleted = api.filter((i) => i.state === "completed");
+    const apiReading = api.filter((i) => i.state === "reading");
+    if (apiReading.length)
+        mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
+            .map((i) => `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${i.title} by ${i.authors.join(", ")}"><img alt="${i.title}" src="${i.image}"></a>`)
+            .join("\n")}`;
+    if (apiCompleted.length)
+        mdContent += `### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
+            .map((i) => `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", { month: "long" })}"><img alt="${i.title}" src="${i.image}"></a>`)
+            .join("\n")}`;
     core_1.debug(`Generated README.md content of length ${mdContent.length}`);
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
