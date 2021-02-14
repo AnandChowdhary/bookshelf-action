@@ -1,4 +1,4 @@
-# 📚 Books Tracker
+# [![Books Tracker](./assets/logo.svg)](https://anandchowdhary.github.io/book-tracker/)
 
 Track your reading using repository issues and generate a README.md and open API automagically.
 
@@ -14,7 +14,7 @@ Track your reading using repository issues and generate a README.md and open API
 ## ⭐ Features
 
 - [x] Add new books by opening issues
-- [ ] Track reading progress with issue comments
+- [x] Track reading progress with issue comments
 - [x] Mark books as completed by closing issues
 - [ ] Auto-summarize reading progress on README.md
 - [ ] Fetch rich metadata for books like cover and ISBN
@@ -29,4 +29,6 @@ Track your reading using repository issues and generate a README.md and open API
 ## 📄 License
 
 - Code: [MIT](./LICENSE) © [Anand Chowdhary](https://anandchowdhary.com)
+- Books icon by [Francielly Costantin Senra](https://thenounproject.com/franciellycs/) from [The Noun Project](https://thenounproject.com)
+- Merge icon by [Danil Polshin](https://thenounproject.com/everydaytemplate) from [The Noun Project](https://thenounproject.com)
 - "GitHub" is a trademark of GitHub, Inc.
