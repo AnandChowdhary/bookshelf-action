@@ -56,8 +56,8 @@ export const onIssueComment = async (
       debug(`Got ${num.length} numerical matches`);
       const potentialPages = parseInt(num[0]);
       if (!isNaN(potentialPages)) {
-        totalPages = potentialPages;
-        debug(`Total pages in book are ${totalPages}`);
+        if (potentialPages) totalPages = potentialPages;
+        debug(`Total pages from comment are ${totalPages}`);
       }
     }
   } else debug("Last comment doesn't have slash");
@@ -75,7 +75,7 @@ export const onIssueComment = async (
       } else {
         progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
         debug(`Potential value is in pages: ${values[0]}`);
-        debug(`Potential percent count: ${Math.round(values[0] / totalPages)}`);
+        debug(`Potential percent count rounded: ${Math.round((100 * values[0]) / totalPages)}`);
       }
   }
   debug(`Progress is ${progressPercent}%`);
