@@ -74,7 +74,11 @@ export const search = async (q: string): Promise<BookResult> => {
     publisher: result.volumeInfo.publisher,
     publishedDate: result.volumeInfo.publishedDate,
     description: result.volumeInfo.description,
-    image: result.volumeInfo.imageLinks.thumbnail,
+    image:
+      (result.volumeInfo.imageLinks || {}).thumbnail ||
+      `https://tse2.mm.bing.net/th?q=${encodeURIComponent(
+        `${result.volumeInfo.title} ${result.volumeInfo.authors.join(" ")}`
+      )}&w=256&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`,
     language: result.volumeInfo.language,
     averageRating: result.volumeInfo.averageRating,
     ratingsCount: result.volumeInfo.ratingsCount,
