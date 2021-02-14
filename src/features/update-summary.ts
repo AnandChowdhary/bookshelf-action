@@ -4,7 +4,6 @@ import type { GitHub } from "@actions/github/lib/utils";
 import { promises } from "fs";
 import humanizeDuration from "humanize-duration";
 import { join } from "path";
-import { format } from "prettier";
 import { exec } from "shelljs";
 import { addDetailsToLabels } from "../github";
 import { BookResult } from "../google-books";
@@ -108,9 +107,7 @@ export const updateSummary = async (
   await promises.writeFile(
     join(".", "README.md"),
     content.split("<!--start:bookshelf-action-->")[0] +
-      `<!--start:bookshelf-action-->\n${format(mdContent, {
-        parser: "html",
-      })}\n<!--end:bookshelf-action-->` +
+      `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
       content.split("<!--end:bookshelf-action-->")[1]
   );
   debug("Written README.md file");
