@@ -15,6 +15,12 @@ const onCloseIssue = async (owner, repo, context, octokit) => {
         issue_number: context.issue.number,
     });
     core_1.debug(`Got issue #${issue.data.number}`);
+    await octokit.issues.unlock({
+        owner: context.issue.owner,
+        repo: context.issue.repo,
+        issue_number: context.issue.number,
+    });
+    core_1.debug("Unlocked issue");
     await octokit.issues.createComment({
         owner: context.issue.owner,
         repo: context.issue.repo,
@@ -22,6 +28,12 @@ const onCloseIssue = async (owner, repo, context, octokit) => {
         body: `You completed this book in ${humanize_duration_1.default(new Date(issue.data.closed_at).getTime() - new Date(issue.data.created_at).getTime())}, great job!`,
     });
     core_1.debug(`Created comment in issue #${issue.data.number}`);
+    await octokit.issues.lock({
+        owner: context.issue.owner,
+        repo: context.issue.repo,
+        issue_number: context.issue.number,
+    });
+    core_1.debug("Locked issue");
     await octokit.issues.addLabels({
         owner: context.issue.owner,
         repo: context.issue.repo,
