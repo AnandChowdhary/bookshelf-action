@@ -121,6 +121,7 @@ export const updateSummary = async (
   });
   mdContent += "</table>";
   debug(`Generated README.md content of length ${mdContent.length}`);
+  debug(mdContent);
   const content = await promises.readFile(join(".", "README.md"), "utf8");
   debug(`Read README.md file of length ${content.length}`);
   await promises.writeFile(
