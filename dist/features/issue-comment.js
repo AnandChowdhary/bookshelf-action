@@ -34,6 +34,8 @@ const onIssueComment = async (owner, repo, context, octokit) => {
         console.log("JSON parsing error", error);
     }
     core_1.debug("Got JSON data for book");
+    if (json)
+        core_1.debug(`Total pages in JSON are ${json.pageCount}`);
     const lastComment = comments.data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
     if (!lastComment)
         throw new Error("Last comment not found");
@@ -54,6 +56,7 @@ const onIssueComment = async (owner, repo, context, octokit) => {
     }
     else
         core_1.debug("Last comment doesn't have slash");
+    core_1.debug(`Total pages in book are ${totalPages}`);
     const valuesInComment = lastComment.body.match(/\d+\%?/g);
     if (valuesInComment && valuesInComment.length) {
         core_1.debug(`Got ${valuesInComment.length} numerical matches`);
