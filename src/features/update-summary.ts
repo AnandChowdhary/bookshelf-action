@@ -75,6 +75,9 @@ export const updateSummary = async (
   debug("Written api.json file");
   const apiLeft = api.filter((_, i) => i % 2 !== 0);
   const apiRight = api.filter((_, i) => i % 2 === 0);
+  debug(`api has length ${api.length}`);
+  debug(`apiLeft has length ${apiLeft.length}`);
+  debug(`apiRight has length ${apiRight.length}`);
   let mdContent = "<table>";
   [apiLeft, apiRight].forEach((apiItem) => {
     apiLeft.forEach((_, i) => {
@@ -117,6 +120,7 @@ export const updateSummary = async (
     });
   });
   mdContent += "</table>";
+  debug(`Generated README.md content of length ${mdContent.length}`);
   const content = await promises.readFile(join(".", "README.md"), "utf8");
   debug(`Read README.md file of length ${content.length}`);
   await promises.writeFile(
