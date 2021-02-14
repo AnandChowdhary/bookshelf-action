@@ -33,8 +33,9 @@ ${JSON.stringify(details, null, 2)}
         details.authors.forEach((i) => labels.push(`author: ${i.toLowerCase().replace(/\,/g, "")}`));
         details.categories.forEach((i) => labels.push(`category: ${i.toLowerCase().replace(/\,/g, "")}`));
         if (details.publishedDate) {
-            labels.push(`year: ${details.publishedDate}`);
-            labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
+            const publishDate = new Date(details.publishedDate);
+            labels.push(`year: ${publishDate.getUTCFullYear()}`);
+            labels.push(`decade: ${Math.floor(publishDate.getUTCFullYear() / 10) * 10}s`);
         }
         if (details.language)
             labels.push(`language: ${(locale_codes_1.getByTag(details.language).name || details.language).toLowerCase()}`);
