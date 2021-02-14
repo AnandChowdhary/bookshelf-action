@@ -121,9 +121,9 @@ export const updateSummary = async (
   debug(`Read README.md file of length ${content.length}`);
   await promises.writeFile(
     join(".", "README.md"),
-    content.split("<!--start:book-tracker-->")[0] +
-      `<!--start:book-tracker-->\n${mdContent}\n<!--end:book-tracker-->` +
-      content.split("<!--end:book-tracker-->")[1]
+    content.split("<!--start:bookshelf-action-->")[0] +
+      `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
+      content.split("<!--end:bookshelf-action-->")[1]
   );
   debug("Written README.md file");
   exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);

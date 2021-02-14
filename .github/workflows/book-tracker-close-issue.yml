@@ -3,7 +3,7 @@ on:
   issues:
     types: [closed]
 jobs:
-  book-tracker:
+  bookshelf-action:
     name: Book Tracker
     runs-on: ubuntu-18.04
     steps:
@@ -13,7 +13,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_PAT }}
       - name: Run Book Tracker
-        uses: AnandChowdhary/book-tracker@HEAD
+        uses: AnandChowdhary/bookshelf-action@HEAD
         with:
           command: "onCloseIssue"
         env:

@@ -1,5 +1,5 @@
 {
-  "name": "book-tracker",
+  "name": "bookshelf-action",
   "version": "0.0.0",
   "description": "Track your reading using GitHub Actions",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnandChowdhary/book-tracker.git"
+    "url": "git+https://github.com/AnandChowdhary/bookshelf-action.git"
   },
   "keywords": [
     "books",
@@ -26,9 +26,9 @@
   "author": "Anand Chowdhary <mail@anandchowdhary.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AnandChowdhary/book-tracker/issues"
+    "url": "https://github.com/AnandChowdhary/bookshelf-action/issues"
   },
-  "homepage": "https://github.com/AnandChowdhary/book-tracker#readme",
+  "homepage": "https://github.com/AnandChowdhary/bookshelf-action#readme",
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/humanize-duration": "^3.18.1",

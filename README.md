@@ -1,13 +1,13 @@
-# [![Books Tracker](./assets/logo.svg)](https://anandchowdhary.github.io/book-tracker/)
+# [![Books Tracker](./assets/logo.svg)](https://anandchowdhary.github.io/bookshelf-action/)
 
 Track your reading using repository issues and generate a README.md and open API automagically.
 
-[![Build CI](https://github.com/AnandChowdhary/book-tracker/workflows/Build%20CI/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Build+CI%22)
-[![Release CI](https://github.com/AnandChowdhary/book-tracker/workflows/Release%20CI/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Release+CI%22)
-[![Node CI](https://github.com/AnandChowdhary/book-tracker/workflows/Node%20CI/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Node+CI%22)
+[![Build CI](https://github.com/AnandChowdhary/bookshelf-action/workflows/Build%20CI/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Build+CI%22)
+[![Release CI](https://github.com/AnandChowdhary/bookshelf-action/workflows/Release%20CI/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Release+CI%22)
+[![Node CI](https://github.com/AnandChowdhary/bookshelf-action/workflows/Node%20CI/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Node+CI%22)
 
-[![Book Tracker: New Issue](https://github.com/AnandChowdhary/book-tracker/workflows/Book%20Tracker:%20New%20Issue/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Book+Tracker%3A+New+Issue%22)
-[![Book Tracker: Close Issue](https://github.com/AnandChowdhary/book-tracker/workflows/Book%20Tracker:%20Close%20Issue/badge.svg)](https://github.com/AnandChowdhary/book-tracker/actions?query=workflow%3A%22Book+Tracker%3A+Close+Issue%22)
+[![Book Tracker: New Issue](https://github.com/AnandChowdhary/bookshelf-action/workflows/Book%20Tracker:%20New%20Issue/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Book+Tracker%3A+New+Issue%22)
+[![Book Tracker: Close Issue](https://github.com/AnandChowdhary/bookshelf-action/workflows/Book%20Tracker:%20Close%20Issue/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Book+Tracker%3A+Close+Issue%22)
 
 **⚠️ NOTE:** This project is currently in development. A detailed setup guide will be posted when it's ready for usage.
 
@@ -22,9 +22,9 @@ Track your reading using repository issues and generate a README.md and open API
 
 ## 📖 Example
 
-<!--start:book-tracker-->
+<!--start:bookshelf-action-->
 <table></table>
-<!--end:book-tracker-->
+<!--end:bookshelf-action-->
 
 ## 📄 License
 
