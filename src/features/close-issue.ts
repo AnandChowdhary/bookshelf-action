@@ -1,9 +1,10 @@
 import { debug } from "@actions/core";
 import { Context } from "@actions/github/lib/context";
 import type { GitHub } from "@actions/github/lib/utils";
+import { config, cosmic } from "@anandchowdhary/cosmic";
+import slugify from "@sindresorhus/slugify";
 import HumanizeDuration from "humanize-duration";
 import { updateSummary } from "./update-summary";
-import slugify from "@sindresorhus/slugify";
 
 export const onCloseIssue = async (
   owner: string,
@@ -12,12 +13,20 @@ export const onCloseIssue = async (
   octokit: InstanceType<typeof GitHub>
 ) => {
   debug("Started onCloseIssue");
+  try {
+    await cosmic("bookshelf");
+    debug("Got config object");
+  } catch (error) {}
   const issue = await octokit.issues.get({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
   debug(`Got issue #${issue.data.number}`);
+  if (config("users") && Array.isArray(config("users"))) {
+    if (!(config("users") as string[]).find((i) => issue.data.user.login))
+      return debug("User not allowed, skipping");
+  }
   await octokit.issues.unlock({
     owner: context.issue.owner,
     repo: context.issue.repo,
