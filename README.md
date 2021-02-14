@@ -38,7 +38,9 @@ Track your reading using repository issues and generate a README.md and open API
           <td>
             <strong>1984</strong><br />
             George Orwell<br /><br />
-            ⌛ Reading<br />
+            ✔️ Completed<br />
+            ⌛ 8 years, 9 months, 2 days, 16 hours, 10 minutes 📅 February 14,
+            2021
           </td>
         </tr>
       </table>

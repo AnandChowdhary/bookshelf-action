@@ -52,7 +52,10 @@
       "canonical": "https://books.google.com/books/about/1984.html?hl=&id=yxv1LK5gyV4C"
     },
     "progressPercent": 0,
-    "state": "reading",
-    "startedAt": "2021-02-14T13:01:09.000Z"
+    "state": "completed",
+    "startedAt": "2021-02-14T13:01:09.000Z",
+    "completedAt": "2021-02-14T14:17:55.000Z",
+    "timeToComplete": 4606000,
+    "timeToCompleteFormatted": "1 hour, 16 minutes, 46 seconds"
   }
 ]
