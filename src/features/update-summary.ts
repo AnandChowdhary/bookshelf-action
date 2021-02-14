@@ -25,6 +25,7 @@ export const updateSummary = async (
   debug(`Got ${issues.data.length} issues`);
   const api: (BookResult & {
     state: "reading" | "completed";
+    issueNumber: number;
     startedAt: string;
     progressPercent: number;
     completedAt?: string;
@@ -52,6 +53,7 @@ export const updateSummary = async (
       const currentPercentage = issue.title.match(/\(\d+\%\)/g);
       api.push({
         ...(json as BookResult),
+        issueNumber: issue.number,
         progressPercent:
           currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
             ? parseInt(currentPercentage[0])
@@ -88,14 +90,25 @@ export const updateSummary = async (
     <table>
       <tr>
         <td>
-          <img alt="" src="${apiItem[i].image}" height="128">
+          <a href="https://github.com/${owner}/${repo}/issues/${
+          apiItem[i].issueNumber
+        }"><img alt="" src="${apiItem[i].image}" height="128"></a>
         </td>   
         <td>
-          <strong>${apiItem[i].title}</strong><br>
-          ${apiItem[i].authors.join(", ")}<br><br>
+          <strong><a href="https://github.com/${owner}/${repo}/issues/${apiItem[i].issueNumber}">${
+          apiItem[i].title
+        }</a></strong><br>
+          ${apiItem[i].authors
+            .map(
+              (i) =>
+                `<a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+label%3A%22author%3A+${encodeURIComponent(
+                  i
+                )}%22">${i}</a>`
+            )
+            .join(", ")}<br><br>
           ${
             apiItem[i].state === "completed"
-              ? `✔️ Completed<br>${
+              ? `✔️ <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed">Completed</a><br>${
                   apiItem[i].timeToComplete
                     ? `⌛ ${humanizeDuration(apiItem[i].timeToComplete || 0)}`
                     : ""
@@ -104,11 +117,22 @@ export const updateSummary = async (
           }<br>
           ${
             apiItem[i].completedAt
-              ? `📅 ${new Date(apiItem[i].completedAt || 0).toLocaleDateString("en", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}`
+              ? `📅 <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(
+                  apiItem[i].completedAt || 0
+                )
+                  .toLocaleDateString("en", {
+                    month: "long",
+                  })
+                  .toLowerCase()}%22">${new Date(apiItem[i].completedAt || 0).toLocaleDateString(
+                  "en",
+                  {
+                    month: "long",
+                  }
+                )}</a> <a href="https://github.com/${owner}/${repo}/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+${new Date(
+                  apiItem[i].completedAt || 0
+                ).getUTCFullYear()}%22#">${new Date(
+                  apiItem[i].completedAt || 0
+                ).getUTCFullYear()}</a>`
               : ""
           }
         </td>
