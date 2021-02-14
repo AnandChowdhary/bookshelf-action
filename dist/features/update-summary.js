@@ -8,7 +8,6 @@ const core_1 = require("@actions/core");
 const fs_1 = require("fs");
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const path_1 = require("path");
-const prettier_1 = require("prettier");
 const shelljs_1 = require("shelljs");
 const github_1 = require("../github");
 const updateSummary = async (owner, repo, context, octokit) => {
@@ -79,9 +78,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
     await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:bookshelf-action-->")[0] +
-        `<!--start:bookshelf-action-->\n${prettier_1.format(mdContent, {
-            parser: "html",
-        })}\n<!--end:bookshelf-action-->` +
+        `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
         content.split("<!--end:bookshelf-action-->")[1]);
     core_1.debug("Written README.md file");
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
