@@ -6,6 +6,7 @@ import humanizeDuration from "humanize-duration";
 import { getByTag } from "locale-codes";
 import { join } from "path";
 import { exec } from "shelljs";
+import { addDetailsToLabels } from "./github";
 import type { BookResult } from "./google-books";
 import { search } from "./google-books";
 
@@ -235,6 +236,8 @@ const updateSummary = async (octokit: InstanceType<typeof GitHub>) => {
   debug("Committed to git history");
   exec("git push");
   debug("Pushed to repository");
+  await addDetailsToLabels(owner, repo, octokit);
+  debug("Updated label details");
 };
 
 run()
