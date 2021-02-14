@@ -45,6 +45,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "@anandchowdhary/cosmic": "^1.0.1",
     "@koj/config": "^1.2.5",
     "@sindresorhus/slugify": "^1.1.0",
     "got": "^11.8.1",
