@@ -18,7 +18,7 @@ const addDetailsToLabels = async (owner, repo, octokit) => {
         let color = label.color;
         let description = label.description;
         if (label.color === "ededed")
-            color = randomcolor_1.default({ luminosity: "light" });
+            color = randomcolor_1.default({ luminosity: "light" }).replace("#", "");
         if (label.description === null) {
             if (label.name === "kind: book")
                 description = "This issue tracks a book (reading progress)";
