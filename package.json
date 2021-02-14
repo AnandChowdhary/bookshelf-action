@@ -1,6 +1,6 @@
 {
   "name": "bookshelf-action",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Track your reading using GitHub Actions",
   "main": "dist/index.js",
   "scripts": {
