@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "title": "1984",
+    "authors": [
+      "George Orwell"
+    ],
+    "publisher": "Univ. Press of Mississippi",
+    "publishedDate": "1977",
+    "description": "Portrays life in a future time when a totalitarian government watches over all citizens and directs all activities.",
+    "image": "http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 4,
+    "ratingsCount": 2320,
+    "categories": [
+      "Fiction"
+    ],
+    "pageCount": 328,
+    "isbn10": "0451524934",
+    "isbn13": "9780451524935",
+    "googleBooks": {
+      "id": "yxv1LK5gyV4C",
+      "preview": "http://books.google.com/books?id=yxv1LK5gyV4C&dq=intitle:1984+by+George+Orwell&hl=&cd=1&source=gbs_api",
+      "info": "http://books.google.com/books?id=yxv1LK5gyV4C&dq=intitle:1984+by+George+Orwell&hl=&source=gbs_api",
+      "canonical": "https://books.google.com/books/about/1984.html?hl=&id=yxv1LK5gyV4C"
+    },
+    "progressPercent": 0,
+    "state": "reading",
+    "startedAt": "2021-02-14T13:01:09.000Z"
+  }
+]
