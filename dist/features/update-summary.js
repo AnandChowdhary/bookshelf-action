@@ -101,9 +101,9 @@ const updateSummary = async (owner, repo, context, octokit) => {
     mdContent += "</table>";
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
-    await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:book-tracker-->")[0] +
-        `<!--start:book-tracker-->\n${mdContent}\n<!--end:book-tracker-->` +
-        content.split("<!--end:book-tracker-->")[1]);
+    await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:bookshelf-action-->")[0] +
+        `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
+        content.split("<!--end:bookshelf-action-->")[1]);
     core_1.debug("Written README.md file");
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
     shelljs_1.exec(`git config --global user.name "github-actions[bot]"`);
