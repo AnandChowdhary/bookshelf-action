@@ -42,8 +42,10 @@ ${JSON.stringify(details, null, 2)}
 \`\`\`
 
 </details>`;
-    details.authors.forEach((i) => labels.push(`author: ${i.toLowerCase()}`));
-    details.categories.forEach((i) => labels.push(`category: ${i.toLowerCase()}`));
+    details.authors.forEach((i) => labels.push(`author: ${i.toLowerCase().replace(/\,/g, "")}`));
+    details.categories.forEach((i) =>
+      labels.push(`category: ${i.toLowerCase().replace(/\,/g, "")}`)
+    );
     if (details.publishedDate) {
       labels.push(`year: ${details.publishedDate}`);
       labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
@@ -52,7 +54,8 @@ ${JSON.stringify(details, null, 2)}
       labels.push(
         `language: ${(getByTag(details.language).name || details.language).toLowerCase()}`
       );
-    if (details.publisher) labels.push(`publisher: ${details.publisher.toLowerCase()}`);
+    if (details.publisher)
+      labels.push(`publisher: ${details.publisher.toLowerCase().replace(/\,/g, "")}`);
     debug("Added labels from search results");
   } catch (error) {
     console.log(error);
