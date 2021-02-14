@@ -45,6 +45,7 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "@koj/config": "^1.2.5",
+    "got": "^11.8.1",
     "humanize-duration": "^3.25.1",
     "shelljs": "^0.8.4"
   },
