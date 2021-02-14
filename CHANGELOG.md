@@ -1,3 +1,22 @@
+## v1.0.1 (2021-02-14)
+
+[📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.0.1) · [💻 Compare](https://github.com/AnandChowdhary/bookshelf-action/compare/v1.0.0...v1.0.1) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.0.1) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.1.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.1.tar.gz))
+
+### ♻️ Updates
+
+- [`08fe191`](https://github.com/AnandChowdhary/bookshelf-action/commit/08fe191)  Use simple images in README
+- [`201b75d`](https://github.com/AnandChowdhary/bookshelf-action/commit/201b75d)  Use markdown image/links
+- [`3394e8b`](https://github.com/AnandChowdhary/bookshelf-action/commit/3394e8b)  Use slugify for labels
+- [`8f27c79`](https://github.com/AnandChowdhary/bookshelf-action/commit/8f27c79)  Allow supported users
+- [`f970fe8`](https://github.com/AnandChowdhary/bookshelf-action/commit/f970fe8)  Support for date overwrites
+
+### 🐛 Bug fixes
+
+- [`cbe00b5`](https://github.com/AnandChowdhary/bookshelf-action/commit/cbe00b5)  Remove prettier because GFM doesn&#x27;t like it
+- [`d092462`](https://github.com/AnandChowdhary/bookshelf-action/commit/d092462)  Unlock issue before commenting
+- [`64160fe`](https://github.com/AnandChowdhary/bookshelf-action/commit/64160fe)  Ensure number exists before converting
+- [`1018498`](https://github.com/AnandChowdhary/bookshelf-action/commit/1018498)  Add newlines before heading
+
 ## v1.0.0 (2021-02-14)
 
 [📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.0.0) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.0.0) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.0.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.0.tar.gz))
