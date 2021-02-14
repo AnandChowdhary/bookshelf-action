@@ -7578,9 +7578,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.search = void 0;
 const source_1 = __importDefault(__webpack_require__(77));
 const search = async (q) => {
-    const results = await source_1.default(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`);
-    console.log(results.body);
-    console.log(results.body.items);
+    const results = await source_1.default(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
+        responseType: "json",
+    });
     const result = results.body.items.sort((a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0))[0];
     if (!result)
         throw new Error("Book not found");
