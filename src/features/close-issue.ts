@@ -3,6 +3,7 @@ import { Context } from "@actions/github/lib/context";
 import type { GitHub } from "@actions/github/lib/utils";
 import HumanizeDuration from "humanize-duration";
 import { updateSummary } from "./update-summary";
+import slugify from "@sindresorhus/slugify";
 
 export const onCloseIssue = async (
   owner: string,
@@ -43,7 +44,7 @@ export const onCloseIssue = async (
     repo: context.issue.repo,
     issue_number: context.issue.number,
     labels: [
-      `completed: ${new Date().toLocaleString("en", { month: "long" }).toLowerCase()}`,
+      `completed: ${slugify(new Date().toLocaleString("en", { month: "long" }))}`,
       `completed: ${new Date().getUTCFullYear()}`,
     ],
   });
