@@ -1,6 +1,7 @@
 import { debug, getInput, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { onCloseIssue } from "./features/close-issue";
+import { onIssueComment } from "./features/issue-comment";
 import { onNewIssue } from "./features/new-issue";
 
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
@@ -15,6 +16,7 @@ export const run = async () => {
   const octokit = getOctokit(token);
   if (COMMAND === "onNewIssue") return onNewIssue(owner, repo, context, octokit);
   if (COMMAND === "onCloseIssue") return onCloseIssue(owner, repo, context, octokit);
+  if (COMMAND === "onIssueComment") return onIssueComment(owner, repo, context, octokit);
   throw new Error("Command not recognized");
 };
 
