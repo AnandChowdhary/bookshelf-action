@@ -17,6 +17,12 @@ export const onCloseIssue = async (
     issue_number: context.issue.number,
   });
   debug(`Got issue #${issue.data.number}`);
+  await octokit.issues.unlock({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+  });
+  debug("Unlocked issue");
   await octokit.issues.createComment({
     owner: context.issue.owner,
     repo: context.issue.repo,
@@ -26,6 +32,12 @@ export const onCloseIssue = async (
     )}, great job!`,
   });
   debug(`Created comment in issue #${issue.data.number}`);
+  await octokit.issues.lock({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+  });
+  debug("Locked issue");
   await octokit.issues.addLabels({
     owner: context.issue.owner,
     repo: context.issue.repo,
