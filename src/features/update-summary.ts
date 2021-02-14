@@ -97,12 +97,14 @@ export const updateSummary = async (
     mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
       .map(
         (i) =>
-          `[![Book cover of ${i.title.replace(/\"/g, "")}](${
-            i.image
-          })](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(
+          `[![Book cover of ${i.title.replace(
             /\"/g,
             ""
-          )} by ${i.authors.join(", ")}")`
+          )}](https://images.weserv.nl/?url=${encodeURIComponent(
+            i.image
+          )}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${
+            i.issueNumber
+          } "${i.title.replace(/\"/g, "")} by ${i.authors.join(", ")}")`
       )
       .join("\n")}`;
   if (apiCompleted.length)
@@ -111,14 +113,18 @@ export const updateSummary = async (
     })\n\n${apiCompleted
       .map(
         (i) =>
-          `[![Book cover of ${i.title.replace(/\"/g, "")}](${
-            i.image
-          })](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(
+          `[![Book cover of ${i.title.replace(
             /\"/g,
             ""
-          )} by ${i.authors.join(", ").replace(/\"/g, "")} completed in ${
-            i.timeToCompleteFormatted
-          } on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
+          )}](https://images.weserv.nl/?url=${encodeURIComponent(
+            i.image
+          )}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${
+            i.issueNumber
+          } "${i.title.replace(/\"/g, "")} by ${i.authors
+            .join(", ")
+            .replace(/\"/g, "")} completed in ${i.timeToCompleteFormatted} on ${new Date(
+            i.completedAt || ""
+          ).toLocaleDateString("en-us", {
             month: "long",
             year: "numeric",
           })}")`
