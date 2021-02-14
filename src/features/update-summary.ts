@@ -103,14 +103,19 @@ export const updateSummary = async (
       )
       .join("\n")}`;
   if (apiCompleted.length)
-    mdContent += `### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
+    mdContent += `${apiReading.length ? "\n\n" : ""}### ✅ Completed (${
+      apiCompleted.length
+    })\n\n${apiCompleted
       .map(
         (i) =>
           `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${
             i.issueNumber
           } "${i.title} by ${i.authors.join(", ")} completed in ${
             i.timeToCompleteFormatted
-          } on ${new Date(i.completedAt || "").toLocaleDateString("en-us", { month: "long" })}")`
+          } on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
+            month: "long",
+            year: "numeric",
+          })}")`
       )
       .join("\n")}`;
   debug(`Generated README.md content of length ${mdContent.length}`);
