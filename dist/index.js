@@ -4353,6 +4353,8 @@ const onIssueComment = async (owner, repo, context, octokit) => {
         issue_number: context.issue.number,
     });
     core_1.debug(`Got ${comments.data.length} comments in issue`);
+    if (comments.data.length < 2)
+        return core_1.debug("Less than 2 comments, skipping");
     let json = undefined;
     try {
         comments.data.forEach((comment) => {
@@ -4392,14 +4394,19 @@ const onIssueComment = async (owner, repo, context, octokit) => {
     }
     core_1.debug(`Progress is ${progressPercent}%`);
     if (progressPercent !== 0) {
-        await octokit.reactions.createForIssueComment({
-            owner: context.issue.owner,
-            repo: context.issue.repo,
-            issue_number: context.issue.number,
-            comment_id: lastComment.id,
-            content: "+1",
-        });
-        core_1.debug("Added reaction on comment");
+        try {
+            await octokit.reactions.createForIssueComment({
+                owner: context.issue.owner,
+                repo: context.issue.repo,
+                issue_number: context.issue.number,
+                comment_id: lastComment.id,
+                content: "+1",
+            });
+            core_1.debug("Added reaction to comment");
+        }
+        catch (error) {
+            core_1.debug("Unable to add reaction to comment");
+        }
         const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
         await octokit.issues.update({
             owner: context.issue.owner,
@@ -7873,7 +7880,7 @@ ${JSON.stringify(details, null, 2)}
             labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
         }
         if (details.language)
-            labels.push(`language: ${locale_codes_1.getByTag(details.language).name || details.language}`);
+            labels.push(`language: ${(locale_codes_1.getByTag(details.language).name || details.language).toLowerCase()}`);
         if (details.publisher)
             labels.push(`publisher: ${details.publisher.toLowerCase()}`);
         core_1.debug("Added labels from search results");
@@ -8090,7 +8097,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addDetailsToLabels = void 0;
-const locale_codes_1 = __webpack_require__(186);
 const randomcolor_1 = __importDefault(__webpack_require__(685));
 /**
  * Convert a string to title case and trim it
@@ -8117,7 +8123,7 @@ const addDetailsToLabels = async (owner, repo, octokit) => {
             else if (label.name.startsWith("decade: "))
                 description = `This book was published in the ${clean(label.name.split("decade: ")[1])}s`;
             else if (label.name.startsWith("language: "))
-                description = `This book was published in ${locale_codes_1.getByTag(label.name.split("language: ")[1].trim()).name}`;
+                description = `This book was published in ${clean(label.name.split("language: ")[1])}`;
             else if (label.name.startsWith("publisher: "))
                 description = `This book was published by ${clean(label.name.split("publisher: ")[1])}`;
             else if (label.name.startsWith("author: "))

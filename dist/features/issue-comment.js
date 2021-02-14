@@ -21,6 +21,8 @@ const onIssueComment = async (owner, repo, context, octokit) => {
         issue_number: context.issue.number,
     });
     core_1.debug(`Got ${comments.data.length} comments in issue`);
+    if (comments.data.length < 2)
+        return core_1.debug("Less than 2 comments, skipping");
     let json = undefined;
     try {
         comments.data.forEach((comment) => {
@@ -60,14 +62,19 @@ const onIssueComment = async (owner, repo, context, octokit) => {
     }
     core_1.debug(`Progress is ${progressPercent}%`);
     if (progressPercent !== 0) {
-        await octokit.reactions.createForIssueComment({
-            owner: context.issue.owner,
-            repo: context.issue.repo,
-            issue_number: context.issue.number,
-            comment_id: lastComment.id,
-            content: "+1",
-        });
-        core_1.debug("Added reaction on comment");
+        try {
+            await octokit.reactions.createForIssueComment({
+                owner: context.issue.owner,
+                repo: context.issue.repo,
+                issue_number: context.issue.number,
+                comment_id: lastComment.id,
+                content: "+1",
+            });
+            core_1.debug("Added reaction to comment");
+        }
+        catch (error) {
+            core_1.debug("Unable to add reaction to comment");
+        }
         const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
         await octokit.issues.update({
             owner: context.issue.owner,
