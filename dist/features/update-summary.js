@@ -68,7 +68,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
     core_1.debug(`apiRight has length ${apiRight.length}`);
     let mdContent = "<table>";
     [apiLeft, apiRight].forEach((apiItem) => {
-        apiLeft.forEach((_, i) => {
+        apiItem.forEach((_, i) => {
             mdContent += "<tr>";
             if (apiItem[i])
                 mdContent += `<td>
