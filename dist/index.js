@@ -9396,7 +9396,7 @@ ${JSON.stringify(details, null, 2)}
         if (details.language)
             labels.push(`language: ${locale_codes_1.getByTag(details.language).name || details.language}`);
         if (details.publisher)
-            labels.push(`publisher: ${details.publisher}`);
+            labels.push(`publisher: ${details.publisher.toLowerCase()}`);
         core_1.debug("Added labels from search results");
     }
     catch (error) {
