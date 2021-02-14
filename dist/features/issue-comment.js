@@ -41,8 +41,10 @@ const onIssueComment = async (owner, repo, context, octokit) => {
     let progressPercent = 0;
     let totalPages = json ? json.pageCount : 1;
     if (lastComment.body.includes("/")) {
+        core_1.debug("Last comment includes slash so must have length");
         const num = lastComment.body.split("/")[1].match(/\d+/g);
         if (num && num.length) {
+            core_1.debug(`Got ${num.length} numerical matches`);
             const potentialPages = parseInt(num[0]);
             if (!isNaN(potentialPages)) {
                 totalPages = potentialPages;
@@ -50,15 +52,24 @@ const onIssueComment = async (owner, repo, context, octokit) => {
             }
         }
     }
+    else
+        core_1.debug("Last comment doesn't have slash");
     const valuesInComment = lastComment.body.match(/\d+\%?/g);
     if (valuesInComment && valuesInComment.length) {
+        core_1.debug(`Got ${valuesInComment.length} numerical matches`);
         const values = valuesInComment.map((val) => parseInt(val)).filter((val) => !isNaN(val));
         const firstVal = valuesInComment[0];
+        core_1.debug(`Potential value is ${firstVal}`);
         if (values.length)
-            if (firstVal.includes("%") && !isNaN(parseInt(firstVal)))
+            if (firstVal.includes("%") && !isNaN(parseInt(firstVal))) {
                 progressPercent = parseInt(firstVal);
-            else
+                core_1.debug(`Potential value has % sign: ${progressPercent}`);
+            }
+            else {
                 progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
+                core_1.debug(`Potential value is in pages: ${values[0]}`);
+                core_1.debug(`Potential percent count: ${Math.round(values[0] / totalPages)}`);
+            }
     }
     core_1.debug(`Progress is ${progressPercent}%`);
     if (progressPercent !== 0) {
