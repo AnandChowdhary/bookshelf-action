@@ -70,7 +70,7 @@ const onIssueComment = async (owner, repo, context, octokit) => {
                 core_1.debug(`Potential value has % sign: ${progressPercent}`);
             }
             else {
-                progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
+                progressPercent = Math.min(Math.round((100 * values[0]) / totalPages), 100);
                 core_1.debug(`Potential value is in pages: ${values[0]}`);
                 core_1.debug(`Potential percent count rounded: ${Math.round((100 * values[0]) / totalPages)}`);
             }

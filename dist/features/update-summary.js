@@ -63,6 +63,9 @@ const updateSummary = async (owner, repo, context, octokit) => {
     core_1.debug("Written api.json file");
     const apiLeft = api.filter((_, i) => i % 2 !== 0);
     const apiRight = api.filter((_, i) => i % 2 === 0);
+    core_1.debug(`api has length ${api.length}`);
+    core_1.debug(`apiLeft has length ${apiLeft.length}`);
+    core_1.debug(`apiRight has length ${apiRight.length}`);
     let mdContent = "<table>";
     [apiLeft, apiRight].forEach((apiItem) => {
         apiLeft.forEach((_, i) => {
@@ -99,6 +102,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
         });
     });
     mdContent += "</table>";
+    core_1.debug(`Generated README.md content of length ${mdContent.length}`);
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
     await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:bookshelf-action-->")[0] +
