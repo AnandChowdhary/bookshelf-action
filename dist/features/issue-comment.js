@@ -96,7 +96,7 @@ const onIssueComment = async (owner, repo, context, octokit) => {
             repo: context.issue.repo,
             issue_number: context.issue.number,
             title: currentPercentage && currentPercentage.length
-                ? `${issue.data.title.split(currentPercentage[0])} (${progressPercent}%)`
+                ? `${issue.data.title.split(currentPercentage[0])[0]} (${progressPercent}%)`
                 : `${issue.data.title} (${progressPercent}%)`,
         });
         core_1.debug("Updated issue title with progress");

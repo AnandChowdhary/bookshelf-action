@@ -103,6 +103,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
     });
     mdContent += "</table>";
     core_1.debug(`Generated README.md content of length ${mdContent.length}`);
+    core_1.debug(mdContent);
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
     await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:bookshelf-action-->")[0] +
