@@ -82,11 +82,11 @@ const updateSummary = async (owner, repo, context, octokit) => {
     const apiReading = api.filter((i) => i.state === "reading");
     if (apiReading.length)
         mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
-            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")}")`)
+            .map((i) => `[![Book cover of ${i.title.replace(/\"/g, "")}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors.join(", ")}")`)
             .join("\n")}`;
     if (apiCompleted.length)
         mdContent += `${apiReading.length ? "\n\n" : ""}### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
-            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
+            .map((i) => `[![Book cover of ${i.title.replace(/\"/g, "")}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors.join(", ").replace(/\"/g, "")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
             month: "long",
             year: "numeric",
         })}")`)
