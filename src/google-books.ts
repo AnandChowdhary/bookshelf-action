@@ -77,16 +77,16 @@ export const search = async (q: string): Promise<BookResult> => {
     image:
       (result.volumeInfo.imageLinks || {}).thumbnail ||
       `https://tse2.mm.bing.net/th?q=${encodeURIComponent(
-        `${result.volumeInfo.title} ${result.volumeInfo.authors.join(" ")}`
+        `${result.volumeInfo.title} by ${result.volumeInfo.authors.join}`
       )}&w=256&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`,
     language: result.volumeInfo.language,
     averageRating: result.volumeInfo.averageRating,
     ratingsCount: result.volumeInfo.ratingsCount,
     categories: result.volumeInfo.categories,
     pageCount: result.volumeInfo.pageCount,
-    isbn10: (result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_10") || {})
+    isbn10: ((result.volumeInfo.industryIdentifiers || []).find((i) => i.type === "ISBN_10") || {})
       .identifier,
-    isbn13: (result.volumeInfo.industryIdentifiers.find((i) => i.type === "ISBN_13") || {})
+    isbn13: ((result.volumeInfo.industryIdentifiers || []).find((i) => i.type === "ISBN_13") || {})
       .identifier,
     googleBooks: {
       id: result.id,
