@@ -7771,7 +7771,7 @@ const addDetailsToLabels = async (owner, repo, octokit) => {
             else if (label.name.startsWith("decade: "))
                 description = `This book was published in the ${clean(label.name.split("decade: ")[1])}s`;
             else if (label.name.startsWith("language: "))
-                description = `This book was published in ${locale_codes_1.getByTag(label.name.split("language: ")[1].trim())}`;
+                description = `This book was published in ${locale_codes_1.getByTag(label.name.split("language: ")[1].trim()).name}`;
             else if (label.name.startsWith("publisher: "))
                 description = `This book was published by ${clean(label.name.split("publisher: ")[1])}`;
             else if (label.name.startsWith("author: "))
@@ -9394,7 +9394,7 @@ ${JSON.stringify(details, null, 2)}
             labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
         }
         if (details.language)
-            labels.push(`language: ${locale_codes_1.getByTag(details.language) || details.language}`);
+            labels.push(`language: ${locale_codes_1.getByTag(details.language).name || details.language}`);
         if (details.publisher)
             labels.push(`publisher: ${details.publisher}`);
         core_1.debug("Added labels from search results");
