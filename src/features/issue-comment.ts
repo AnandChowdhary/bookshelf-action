@@ -40,6 +40,7 @@ export const onIssueComment = async (
     console.log("JSON parsing error", error);
   }
   debug("Got JSON data for book");
+  if (json) debug(`Total pages in JSON are ${(json as BookResult).pageCount}`);
 
   const lastComment = comments.data.sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -60,6 +61,7 @@ export const onIssueComment = async (
       }
     }
   } else debug("Last comment doesn't have slash");
+  debug(`Total pages in book are ${totalPages}`);
   const valuesInComment = lastComment.body.match(/\d+\%?/g);
   if (valuesInComment && valuesInComment.length) {
     debug(`Got ${valuesInComment.length} numerical matches`);
