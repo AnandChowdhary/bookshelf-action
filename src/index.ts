@@ -94,7 +94,7 @@ ${JSON.stringify(details, null, 2)}
       labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
     }
     if (details.language)
-      labels.push(`language: ${getByTag(details.language) || details.language}`);
+      labels.push(`language: ${getByTag(details.language).name || details.language}`);
     if (details.publisher) labels.push(`publisher: ${details.publisher}`);
     debug("Added labels from search results");
   } catch (error) {
