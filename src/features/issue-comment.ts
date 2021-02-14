@@ -65,7 +65,7 @@ export const onIssueComment = async (
     if (values.length)
       if (firstVal.includes("%") && !isNaN(parseInt(firstVal)))
         progressPercent = parseInt(firstVal);
-      else progressPercent = Math.max(Math.round(values[0] / totalPages), 100);
+      else progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
   }
   debug(`Progress is ${progressPercent}%`);
   if (progressPercent !== 0) {
