@@ -25,6 +25,7 @@ export const updateSummary = async (
   const api: (BookResult & {
     state: "reading" | "completed";
     startedAt: string;
+    progressPercent: number;
     completedAt?: string;
     timeToComplete?: number;
     timeToCompleteFormatted?: string;
@@ -45,9 +46,15 @@ export const updateSummary = async (
     } catch (error) {
       console.log("JSON parsing error", error);
     }
-    if (json)
+    if (json) {
+      debug(`Found JSON data for ${(json as BookResult).title}`);
+      const currentPercentage = issue.title.match(/\(\d+\%\)/g);
       api.push({
         ...(json as BookResult),
+        progressPercent:
+          currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
+            ? parseInt(currentPercentage[0])
+            : 0,
         state: issue.state === "open" ? "reading" : "completed",
         startedAt: new Date(issue.created_at).toISOString(),
         completedAt: issue.state === "closed" ? new Date(issue.closed_at).toISOString() : undefined,
@@ -62,6 +69,7 @@ export const updateSummary = async (
               )
             : undefined,
       });
+    } else debug(`Unable to find JSON data for #${issue.id}`);
   }
   await promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
   debug("Written api.json file");
@@ -81,7 +89,11 @@ export const updateSummary = async (
         <td>
           <strong>${apiItem[i].title}</strong><br>
           ${apiItem[i].authors.join(", ")}<br><br>
-          ${apiItem[i].state === "completed" ? "✔️ Completed" : "⌛ Reading"}<br>
+          ${
+            apiItem[i].state === "completed"
+              ? "✔️ Completed"
+              : `⌛ Reading${apiItem[i].progressPercent ? ` (${apiItem[i].progressPercent}%)` : ""}`
+          }<br>
           ${
             apiItem[i].timeToComplete
               ? `⌛ ${humanizeDuration((apiItem[i].timeToComplete || 0) * 60000)}`
