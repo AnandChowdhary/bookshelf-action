@@ -80,7 +80,7 @@ export const updateSummary = async (
   debug(`apiRight has length ${apiRight.length}`);
   let mdContent = "<table>";
   [apiLeft, apiRight].forEach((apiItem) => {
-    apiLeft.forEach((_, i) => {
+    apiItem.forEach((_, i) => {
       mdContent += "<tr>";
       if (apiItem[i])
         mdContent += `<td>
