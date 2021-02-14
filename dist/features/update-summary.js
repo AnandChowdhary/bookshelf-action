@@ -8,6 +8,7 @@ const core_1 = require("@actions/core");
 const fs_1 = require("fs");
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const path_1 = require("path");
+const prettier_1 = require("prettier");
 const shelljs_1 = require("shelljs");
 const github_1 = require("../github");
 const updateSummary = async (owner, repo, context, octokit) => {
@@ -68,17 +69,19 @@ const updateSummary = async (owner, repo, context, octokit) => {
     const apiReading = api.filter((i) => i.state === "reading");
     if (apiReading.length)
         mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
-            .map((i) => `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${i.title} by ${i.authors.join(", ")}"><img alt="${i.title}" src="${i.image}"></a>`)
+            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")}")`)
             .join("\n")}`;
     if (apiCompleted.length)
         mdContent += `### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
-            .map((i) => `<a href="https://github.com/${owner}/${repo}/issues/${i.issueNumber}" title="${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", { month: "long" })}"><img alt="${i.title}" src="${i.image}"></a>`)
+            .map((i) => `[![Book cover of ${i.title}](${i.image})](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title} by ${i.authors.join(", ")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", { month: "long" })}")`)
             .join("\n")}`;
     core_1.debug(`Generated README.md content of length ${mdContent.length}`);
     const content = await fs_1.promises.readFile(path_1.join(".", "README.md"), "utf8");
     core_1.debug(`Read README.md file of length ${content.length}`);
     await fs_1.promises.writeFile(path_1.join(".", "README.md"), content.split("<!--start:bookshelf-action-->")[0] +
-        `<!--start:bookshelf-action-->\n${mdContent}\n<!--end:bookshelf-action-->` +
+        `<!--start:bookshelf-action-->\n${prettier_1.format(mdContent, {
+            parser: "markdown",
+        })}\n<!--end:bookshelf-action-->` +
         content.split("<!--end:bookshelf-action-->")[1]);
     core_1.debug("Written README.md file");
     shelljs_1.exec(`git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"`);
