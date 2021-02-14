@@ -99,8 +99,8 @@ export const onIssueComment = async (
       issue_number: context.issue.number,
       title:
         currentPercentage && currentPercentage.length
-          ? `${issue.data.title.split(currentPercentage[0])[0]} (${progressPercent}%)`
-          : `${issue.data.title} (${progressPercent}%)`,
+          ? `${issue.data.title.split(currentPercentage[0])[0].trim()} (${progressPercent}%)`
+          : `${issue.data.title.trim()} (${progressPercent}%)`,
     });
     debug("Updated issue title with progress");
   }

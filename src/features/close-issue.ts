@@ -36,5 +36,15 @@ export const onCloseIssue = async (
     ],
   });
   debug(`Added "completed" labels to issue #${issue.data.number}`);
+  const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
+  await octokit.issues.update({
+    owner: context.issue.owner,
+    repo: context.issue.repo,
+    issue_number: context.issue.number,
+    title:
+      currentPercentage && currentPercentage.length
+        ? `${issue.data.title.split(currentPercentage[0])[0].trim()} (${100}%)`
+        : `${issue.data.title.trim()} (${100}%)`,
+  });
   await updateSummary(owner, repo, context, octokit);
 };
