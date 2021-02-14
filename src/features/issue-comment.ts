@@ -69,14 +69,18 @@ export const onIssueComment = async (
   }
   debug(`Progress is ${progressPercent}%`);
   if (progressPercent !== 0) {
-    await octokit.reactions.createForIssueComment({
-      owner: context.issue.owner,
-      repo: context.issue.repo,
-      issue_number: context.issue.number,
-      comment_id: lastComment.id,
-      content: "+1",
-    });
-    debug("Added reaction on comment");
+    try {
+      await octokit.reactions.createForIssueComment({
+        owner: context.issue.owner,
+        repo: context.issue.repo,
+        issue_number: context.issue.number,
+        comment_id: lastComment.id,
+        content: "+1",
+      });
+      debug("Added reaction to comment");
+    } catch (error) {
+      debug("Unable to add reaction to comment");
+    }
     const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
     await octokit.issues.update({
       owner: context.issue.owner,
