@@ -47,8 +47,9 @@ ${JSON.stringify(details, null, 2)}
       labels.push(`category: ${i.toLowerCase().replace(/\,/g, "")}`)
     );
     if (details.publishedDate) {
-      labels.push(`year: ${details.publishedDate}`);
-      labels.push(`decade: ${Math.floor(Number(details.publishedDate) / 10) * 10}s`);
+      const publishDate = new Date(details.publishedDate);
+      labels.push(`year: ${publishDate.getUTCFullYear()}`);
+      labels.push(`decade: ${Math.floor(publishDate.getUTCFullYear() / 10) * 10}s`);
     }
     if (details.language)
       labels.push(
