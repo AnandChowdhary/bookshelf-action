@@ -23,23 +23,49 @@ Track your reading using repository issues and generate a README.md and open API
 ## 📖 Example
 
 <!--start:bookshelf-action-->
-<table><tr><td>
-    <table>
-      <tr>
-        <td>
-          <img alt="" src="http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api" height="128">
-        </td>   
-        <td>
-          <strong>1984</strong><br>
-          George Orwell<br><br>
-          ⌛ Reading<br>
-          
-          
-        </td>
-      </tr>
-    </table>
-  </td>
-  </tr></table>
+<table>
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td>
+            <img
+              alt=""
+              src="http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+              height="128"
+            />
+          </td>
+          <td>
+            <strong>1984</strong><br />
+            George Orwell<br /><br />
+            ⌛ Reading<br />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td>
+            <img
+              alt=""
+              src="http://books.google.com/books/content?id=620pAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+              height="128"
+            />
+          </td>
+          <td>
+            <strong>The Hard Thing About Hard Things</strong><br />
+            Ben Horowitz<br /><br />
+            ⌛ Reading<br />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
 <!--end:bookshelf-action-->
 
 ## 📄 License

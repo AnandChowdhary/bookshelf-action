@@ -1,5 +1,33 @@
 [
   {
+    "title": "The Hard Thing About Hard Things",
+    "authors": [
+      "Ben Horowitz"
+    ],
+    "publisher": "Harper Collins",
+    "publishedDate": "2014-03-04",
+    "description": "Ben Horowitz, cofounder of Andreessen Horowitz and one of Silicon Valley's most respected and experienced entrepreneurs, offers essential advice on building and running a startup—practical wisdom for managing the toughest problems business school doesn’t cover, based on his popular ben’s blog. While many people talk about how great it is to start a business, very few are honest about how difficult it is to run one. Ben Horowitz analyzes the problems that confront leaders every day, sharing the insights he’s gained developing, managing, selling, buying, investing in, and supervising technology companies. A lifelong rap fanatic, he amplifies business lessons with lyrics from his favorite songs, telling it straight about everything from firing friends to poaching competitors, cultivating and sustaining a CEO mentality to knowing the right time to cash in. Filled with his trademark humor and straight talk, The Hard Thing About Hard Things is invaluable for veteran entrepreneurs as well as those aspiring to their own new ventures, drawing from Horowitz's personal and often humbling experiences.",
+    "image": "http://books.google.com/books/content?id=620pAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "language": "en",
+    "averageRating": 4,
+    "ratingsCount": 8,
+    "categories": [
+      "Business & Economics"
+    ],
+    "pageCount": 304,
+    "isbn10": "0062273213",
+    "isbn13": "9780062273215",
+    "googleBooks": {
+      "id": "620pAgAAQBAJ",
+      "preview": "http://books.google.com/books?id=620pAgAAQBAJ&printsec=frontcover&dq=intitle:The+Hard+Thing+About+Hard+Things+by+Ben+Horowitz&hl=&cd=1&source=gbs_api",
+      "info": "https://play.google.com/store/books/details?id=620pAgAAQBAJ&source=gbs_api",
+      "canonical": "https://play.google.com/store/books/details?id=620pAgAAQBAJ"
+    },
+    "progressPercent": 0,
+    "state": "reading",
+    "startedAt": "2021-02-14T14:08:22.000Z"
+  },
+  {
     "title": "1984",
     "authors": [
       "George Orwell"
