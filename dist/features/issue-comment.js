@@ -49,8 +49,9 @@ const onIssueComment = async (owner, repo, context, octokit) => {
             core_1.debug(`Got ${num.length} numerical matches`);
             const potentialPages = parseInt(num[0]);
             if (!isNaN(potentialPages)) {
-                totalPages = potentialPages;
-                core_1.debug(`Total pages in book are ${totalPages}`);
+                if (potentialPages)
+                    totalPages = potentialPages;
+                core_1.debug(`Total pages from comment are ${totalPages}`);
             }
         }
     }
@@ -71,7 +72,7 @@ const onIssueComment = async (owner, repo, context, octokit) => {
             else {
                 progressPercent = Math.min(Math.round(values[0] / totalPages), 100);
                 core_1.debug(`Potential value is in pages: ${values[0]}`);
-                core_1.debug(`Potential percent count: ${Math.round(values[0] / totalPages)}`);
+                core_1.debug(`Potential percent count rounded: ${Math.round((100 * values[0]) / totalPages)}`);
             }
     }
     core_1.debug(`Progress is ${progressPercent}%`);
