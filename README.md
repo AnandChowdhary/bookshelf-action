@@ -6,10 +6,7 @@ Track your reading using repository issues and generate a README.md and open API
 [![Release CI](https://github.com/AnandChowdhary/bookshelf-action/workflows/Release%20CI/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Release+CI%22)
 [![Node CI](https://github.com/AnandChowdhary/bookshelf-action/workflows/Node%20CI/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Node+CI%22)
 
-[![Bookshelf Action: New Issue](https://github.com/AnandChowdhary/bookshelf-action/workflows/Book%20Tracker:%20New%20Issue/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Book+Tracker%3A+New+Issue%22)
-[![Bookshelf Action: Close Issue](https://github.com/AnandChowdhary/bookshelf-action/workflows/Book%20Tracker:%20Close%20Issue/badge.svg)](https://github.com/AnandChowdhary/bookshelf-action/actions?query=workflow%3A%22Book+Tracker%3A+Close+Issue%22)
-
-**⚠️ NOTE:** This project is currently in development. A detailed setup guide will be posted when it's ready for usage.
+[**View starter repository →**](https://github.com/AnandChowdhary/books)
 
 ## ⭐ Features
 
@@ -17,130 +14,61 @@ Track your reading using repository issues and generate a README.md and open API
   - Create GitHub issues to add the books you're reading
   - Track your reading progress by adding comments to the issue
   - Close the issue when you've completed the book
-- Get a README.md summary and JSON API for your data
+- Get a README.md summary and JSON API for your reading data
 - Uses Google Books API to fetch details like cover and ISBN
 
 ### Get started
 
-This repository only includes the GitHub Actions required as dependencies. To get started, [**visit the AnandChowdhary/books repository**](https://github.com/AnandChowdhary/books) and use it as a starting point. You can use the [Use this template](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) button to create a new repository:
+This repository only includes the GitHub Actions required as dependencies. To get started, [**visit AnandChowdhary/books**](https://github.com/AnandChowdhary/books) and use it as a starting point. You can use the [Use this template](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) button to create a new repository:
 
 1. Go to [AnandChowdhary/books](https://github.com/AnandChowdhary/books)
 2. Click on the "Use this template" button or fork the repository
 3. Add a book by creating a new issue with the book's name
 
+<details>
+  <summary>How to add a new book</summary>
+
+First, create a new issue in your repository:
+
+![Screenshot of new issue button](./assets/new-issue.png)
+
+Then, write the name of the book and author as the issue title:
+
+![Screenshot of issue title](./assets/book-title-in-issue.png)
+
+Lastly, press the "Submit new issue" button and you'll see a comment and labels added automatically:
+
+![Screenshot of comment in issue](./assets/issue-bot-comment.png)
+
+</details>
+
+<details>
+  <summary>How to update reading progress</summary>
+
+In your book's issue, simply enter in plain text the progress. For example, "I've reached page 100" or "I've completed 24%", or "I've reached page 42/542". The issue title will be automatically updated to include your reading progress:
+
+![Screenshot of new issue button](./assets/issue-title-progress.png)
+
+</details>
+
+<details>
+  <summary>How to complete reading a book</summary>
+
+When you've completed a book, simply close the issue. An automated comment will be added to tell you about your reading time and some new labels will be added.
+
+![Screenshot of new issue button](./assets/issue-close-completed.png)
+
+</details>
+
 ## 📖 Example
 
 Simply create issues with names of books, and Bookshelf Action will automatically organize them with labels:
 
-![Screenshot of issues](https://raw.githubusercontent.com/AnandChowdhary/bookshelf-action/master/assets/issues.png)
+![Screenshot of issues](./assets/issues.png)
 
 Additionally, a summary of your reading progress is generated in the `README.md` file:
 
-<!--start:bookshelf-action-->
-<table>
-  <tr>
-    <td>
-      <table>
-        <tr>
-          <td>
-            <a
-              href="https://github.com/AnandChowdhary/bookshelf-action/issues/16"
-              ><img
-                alt=""
-                src="http://books.google.com/books/content?id=620pAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                height="128"
-            /></a>
-          </td>
-          <td>
-            <strong
-              ><a
-                href="https://github.com/AnandChowdhary/bookshelf-action/issues/16"
-                >The Hard Thing About Hard Things</a
-              ></strong
-            ><br />
-            <a
-              href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+Ben%20Horowitz%22"
-              >Ben Horowitz</a
-            ><br /><br />
-            ⌛ Reading<br />
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <table>
-        <tr>
-          <td>
-            <a
-              href="https://github.com/AnandChowdhary/bookshelf-action/issues/17"
-              ><img
-                alt=""
-                src="http://books.google.com/books/content?id=y9_mxZLYiiMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                height="128"
-            /></a>
-          </td>
-          <td>
-            <strong
-              ><a
-                href="https://github.com/AnandChowdhary/bookshelf-action/issues/17"
-                >Lean In</a
-              ></strong
-            ><br />
-            <a
-              href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+Sheryl%20Sandberg%22"
-              >Sheryl Sandberg</a
-            ><br /><br />
-            ⌛ Reading<br />
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <td>
-    <table>
-      <tr>
-        <td>
-          <a href="https://github.com/AnandChowdhary/bookshelf-action/issues/13"
-            ><img
-              alt=""
-              src="http://books.google.com/books/content?id=yxv1LK5gyV4C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-              height="128"
-          /></a>
-        </td>
-        <td>
-          <strong
-            ><a
-              href="https://github.com/AnandChowdhary/bookshelf-action/issues/13"
-              >1984</a
-            ></strong
-          ><br />
-          <a
-            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+label%3A%22author%3A+George%20Orwell%22"
-            >George Orwell</a
-          ><br /><br />
-          ✔️
-          <a
-            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed"
-            >Completed</a
-          ><br />⌛ 1 hour, 16 minutes, 46 seconds<br />
-          📅
-          <a
-            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+february%22"
-            >February</a
-          >
-          <a
-            href="https://github.com/AnandChowdhary/bookshelf-action/issues?q=is%3Aissue+is%3Aclosed+label%3A%22completed%3A+2021%22#"
-            >2021</a
-          >
-        </td>
-      </tr>
-    </table>
-  </td>
-</table>
-
-<!--end:bookshelf-action-->
+![Screenshot of README](./assets/readme-demo.png)
 
 ## 📄 License
 
