@@ -1,3 +1,25 @@
+## v1.0.2 (2021-02-20)
+
+[📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.0.2) · [💻 Compare](https://github.com/AnandChowdhary/bookshelf-action/compare/v1.0.1...v1.0.2) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.0.2) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.2.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.2.tar.gz))
+
+### ♻️ Updates
+
+- [`84f122b`](https://github.com/AnandChowdhary/bookshelf-action/commit/84f122b)  Use resized images in README
+- [`7eece75`](https://github.com/AnandChowdhary/bookshelf-action/commit/7eece75)  Iterate over all labels paginated
+
+### 🐛 Bug fixes
+
+- [`654257d`](https://github.com/AnandChowdhary/bookshelf-action/commit/654257d)  Support fallback images
+- [`ea055b5`](https://github.com/AnandChowdhary/bookshelf-action/commit/ea055b5)  Ensure identifiers exist
+- [`5c00354`](https://github.com/AnandChowdhary/bookshelf-action/commit/5c00354)  Remove &quot; in names
+
+### ⬆️ Dependency updates
+
+- [`09c5e6e`](https://github.com/AnandChowdhary/bookshelf-action/commit/09c5e6e)  Bump pascalgn/automerge-action from v0.13.0 to v0.13.1
+- [`4b3b027`](https://github.com/AnandChowdhary/bookshelf-action/commit/4b3b027)  Bump vsoch/pull-request-action from 1.0.13 to 1.0.14
+- [`9eabb3d`](https://github.com/AnandChowdhary/bookshelf-action/commit/9eabb3d)  Bump semantic-release from 17.3.8 to 17.3.9
+- [`9f1fab8`](https://github.com/AnandChowdhary/bookshelf-action/commit/9f1fab8)  Bump vsoch/pull-request-action from 1.0.14 to 1.0.15
+
 ## v1.0.1 (2021-02-14)
 
 [📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.0.1) · [💻 Compare](https://github.com/AnandChowdhary/bookshelf-action/compare/v1.0.0...v1.0.1) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.0.1) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.1.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.1.tar.gz))
