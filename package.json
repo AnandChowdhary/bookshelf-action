@@ -32,7 +32,7 @@
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/humanize-duration": "^3.18.1",
-    "@types/jest": "^26.0.14",
+    "@types/jest": "^27.0.1",
     "@types/randomcolor": "^0.5.5",
     "@types/shelljs": "^0.8.8",
     "@zeit/ncc": "^0.22.3",
