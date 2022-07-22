@@ -26,7 +26,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
         state: "all",
     });
     core_1.debug(`Got ${issues.data.length} issues`);
-    const api = [];
+    let api = [];
     for await (const issue of issues.data) {
         const comments = await octokit.issues.listComments({
             owner: context.issue.owner,
@@ -74,6 +74,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
         else
             core_1.debug(`Unable to find JSON data for #${issue.id}`);
     }
+    api = api.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
     await fs_1.promises.writeFile(path_1.join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
     core_1.debug("Written api.json file");
     core_1.debug(`api has length ${api.length}`);
