@@ -28,7 +28,7 @@ export const updateSummary = async (
     state: "all",
   });
   debug(`Got ${issues.data.length} issues`);
-  const api: (BookResult & {
+  let api: (BookResult & {
     state: "reading" | "completed";
     issueNumber: number;
     startedAt: string;
@@ -87,6 +87,7 @@ export const updateSummary = async (
       });
     } else debug(`Unable to find JSON data for #${issue.id}`);
   }
+  api = api.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
   await promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
   debug("Written api.json file");
   debug(`api has length ${api.length}`);
