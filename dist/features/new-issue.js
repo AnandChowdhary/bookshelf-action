@@ -37,7 +37,7 @@ const onNewIssue = async (owner, repo, context, octokit) => {
     try {
         (0, core_1.debug)(`Searching for "${issue.data.title}"`);
         const details = await (0, google_books_1.search)(issue.data.title);
-        body += `Congrats on starting **${details.title}** by ${details.authors.join(", ")}, I hope you enjoy it! It has an average of ${details.averageRating || "unknown"}/5 stars and ${(details.ratingsCount || 0).toLocaleString()} ratings on [Google Books](${details.googleBooks.info}).\n\n<details>
+        body += `Congrats on adding **${details.title}** by ${details.authors.join(", ")} to your bookshelf, I hope you enjoy it! It has an average of ${details.averageRating || "unknown"}/5 stars and ${(details.ratingsCount || 0).toLocaleString()} ratings on [Google Books](${details.googleBooks.info}).\n\n<details>
  <summary>Book details (JSON)</summary>
 
 \`\`\`json
