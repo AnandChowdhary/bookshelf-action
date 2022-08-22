@@ -77,7 +77,7 @@ export const search = async (q: string): Promise<BookResult> => {
     image:
       (result.volumeInfo.imageLinks || {}).thumbnail ||
       `https://tse2.mm.bing.net/th?q=${encodeURIComponent(
-        `${result.volumeInfo.title} by ${result.volumeInfo.authors.join}`
+        `${result.volumeInfo.title} by ${result.volumeInfo.authors.join(", ")}`
       )}&w=256&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`,
     language: result.volumeInfo.language,
     averageRating: result.volumeInfo.averageRating,
