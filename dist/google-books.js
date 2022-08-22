@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.search = void 0;
 const source_1 = __importDefault(require("got/dist/source"));
 const search = async (q) => {
-    const results = await source_1.default(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
+    const results = await (0, source_1.default)(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
         responseType: "json",
     });
     const result = results.body.items.sort((a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0))[0];
@@ -19,7 +19,7 @@ const search = async (q) => {
         publishedDate: result.volumeInfo.publishedDate,
         description: result.volumeInfo.description,
         image: (result.volumeInfo.imageLinks || {}).thumbnail ||
-            `https://tse2.mm.bing.net/th?q=${encodeURIComponent(`${result.volumeInfo.title} by ${result.volumeInfo.authors.join}`)}&w=256&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`,
+            `https://tse2.mm.bing.net/th?q=${encodeURIComponent(`${result.volumeInfo.title} by ${result.volumeInfo.authors.join(", ")}`)}&w=256&c=7&rs=1&p=0&dpr=3&pid=1.7&mkt=en-IN&adlt=moderate`,
         language: result.volumeInfo.language,
         averageRating: result.volumeInfo.averageRating,
         ratingsCount: result.volumeInfo.ratingsCount,

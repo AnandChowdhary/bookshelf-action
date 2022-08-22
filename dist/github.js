@@ -12,13 +12,13 @@ const randomcolor_1 = __importDefault(require("randomcolor"));
  */
 const clean = (str) => str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()).trim();
 const addDetailsToLabels = async (owner, repo, octokit) => {
-    const options = octokit.issues.listLabelsForRepo.endpoint.merge({ owner, repo });
+    const options = octokit.rest.issues.listLabelsForRepo.endpoint.merge({ owner, repo });
     for await (const labels of octokit.paginate.iterator(options)) {
         for await (const label of labels.data) {
             let color = label.color;
             let description = label.description;
             if (label.color === "ededed")
-                color = randomcolor_1.default({ luminosity: "light" }).replace("#", "");
+                color = (0, randomcolor_1.default)({ luminosity: "light" }).replace("#", "");
             if (label.description === null) {
                 if (label.name === "kind: book")
                     description = "This issue tracks a book (reading progress)";
@@ -40,7 +40,13 @@ const addDetailsToLabels = async (owner, repo, octokit) => {
                     description = `This book is of the category "${clean(label.name.split("category: ")[1])}"`;
             }
             if (color !== label.color || description !== label.description)
-                await octokit.issues.updateLabel({ owner, repo, name: label.name, color, description });
+                await octokit.rest.issues.updateLabel({
+                    owner,
+                    repo,
+                    name: label.name,
+                    color,
+                    description,
+                });
         }
     }
 };

@@ -10,53 +10,55 @@ const slugify_1 = __importDefault(require("@sindresorhus/slugify"));
 const humanize_duration_1 = __importDefault(require("humanize-duration"));
 const update_summary_1 = require("./update-summary");
 const onCloseIssue = async (owner, repo, context, octokit) => {
-    core_1.debug("Started onCloseIssue");
+    (0, core_1.debug)("Started onCloseIssue");
     try {
-        await cosmic_1.cosmic("bookshelf");
-        core_1.debug("Got config object");
+        await (0, cosmic_1.cosmic)("bookshelf");
+        (0, core_1.debug)("Got config object");
     }
     catch (error) { }
-    const issue = await octokit.issues.get({
+    const issue = await octokit.rest.issues.get({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
     });
-    core_1.debug(`Got issue #${issue.data.number}`);
-    if (cosmic_1.config("users") && Array.isArray(cosmic_1.config("users"))) {
-        if (!cosmic_1.config("users").find((i) => issue.data.user.login))
-            return core_1.debug("User not allowed, skipping");
+    (0, core_1.debug)(`Got issue #${issue.data.number}`);
+    if ((0, cosmic_1.config)("users") && Array.isArray((0, cosmic_1.config)("users"))) {
+        if (!(0, cosmic_1.config)("users").find((i) => (issue.data.user || {}).login))
+            return (0, core_1.debug)("User not allowed, skipping");
     }
-    await octokit.issues.unlock({
+    await octokit.rest.issues.unlock({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
     });
-    core_1.debug("Unlocked issue");
-    await octokit.issues.createComment({
+    (0, core_1.debug)("Unlocked issue");
+    if (!issue.data.closed_at)
+        throw new Error("Closed date not found");
+    await octokit.rest.issues.createComment({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
-        body: `You completed this book in ${humanize_duration_1.default(new Date(issue.data.closed_at).getTime() - new Date(issue.data.created_at).getTime())}, great job!`,
+        body: `You completed this book in ${(0, humanize_duration_1.default)(new Date(issue.data.closed_at).getTime() - new Date(issue.data.created_at).getTime())}, great job!`,
     });
-    core_1.debug(`Created comment in issue #${issue.data.number}`);
-    await octokit.issues.lock({
+    (0, core_1.debug)(`Created comment in issue #${issue.data.number}`);
+    await octokit.rest.issues.lock({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
     });
-    core_1.debug("Locked issue");
-    await octokit.issues.addLabels({
+    (0, core_1.debug)("Locked issue");
+    await octokit.rest.issues.addLabels({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
         labels: [
-            `completed: ${slugify_1.default(new Date().toLocaleString("en", { month: "long" }))}`,
+            `completed: ${(0, slugify_1.default)(new Date().toLocaleString("en", { month: "long" }))}`,
             `completed: ${new Date().getUTCFullYear()}`,
         ],
     });
-    core_1.debug(`Added "completed" labels to issue #${issue.data.number}`);
+    (0, core_1.debug)(`Added "completed" labels to issue #${issue.data.number}`);
     const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
-    await octokit.issues.update({
+    await octokit.rest.issues.update({
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
@@ -64,7 +66,7 @@ const onCloseIssue = async (owner, repo, context, octokit) => {
             ? `${issue.data.title.split(currentPercentage[0])[0].trim()} (${100}%)`
             : `${issue.data.title.trim()} (${100}%)`,
     });
-    await update_summary_1.updateSummary(owner, repo, context, octokit);
+    await (0, update_summary_1.updateSummary)(owner, repo, context, octokit);
 };
 exports.onCloseIssue = onCloseIssue;
 //# sourceMappingURL=close-issue.js.map
