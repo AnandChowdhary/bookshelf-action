@@ -29,7 +29,7 @@ export const updateSummary = async (
   });
   debug(`Got ${issues.data.length} issues`);
   let api: (BookResult & {
-    state: "reading" | "completed";
+    state: "reading" | "completed" | "want-to-read";
     issueNumber: number;
     startedAt: string;
     progressPercent: number;
@@ -53,6 +53,10 @@ export const updateSummary = async (
     } catch (error) {
       console.log("JSON parsing error", error);
     }
+    const isWantToRead = issue.labels.find((label) =>
+      typeof label === "string" ? label === "want to read" : label.name === "want to read"
+    );
+    if (isWantToRead) debug(`Book is in category "want to read"`);
     if (json) {
       debug(`Found JSON data for ${(json as BookResult).title}`);
       const currentPercentage = issue.title.match(/\(\d+\%\)/g);
@@ -71,7 +75,7 @@ export const updateSummary = async (
           currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
             ? parseInt(currentPercentage[0])
             : 0,
-        state: issue.state === "open" ? "reading" : "completed",
+        state: issue.state === "open" ? (isWantToRead ? "want-to-read" : "reading") : "completed",
         startedAt: new Date(openedAt).toISOString(),
         completedAt: issue.state === "closed" ? new Date(closedAt).toISOString() : undefined,
         timeToComplete:
@@ -93,6 +97,7 @@ export const updateSummary = async (
   debug(`api has length ${api.length}`);
   let mdContent = "";
   const apiCompleted = api.filter((i) => i.state === "completed");
+  const apiWantToRead = api.filter((i) => i.state === "want-to-read");
   const apiReading = api.filter((i) => i.state === "reading");
   if (apiReading.length)
     mdContent += `### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
@@ -112,6 +117,29 @@ export const updateSummary = async (
     mdContent += `${apiReading.length ? "\n\n" : ""}### ✅ Completed (${
       apiCompleted.length
     })\n\n${apiCompleted
+      .map(
+        (i) =>
+          `[![Book cover of ${i.title.replace(
+            /\"/g,
+            ""
+          )}](https://images.weserv.nl/?url=${encodeURIComponent(
+            i.image
+          )}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${
+            i.issueNumber
+          } "${i.title.replace(/\"/g, "")} by ${i.authors
+            .join(", ")
+            .replace(/\"/g, "")} completed in ${i.timeToCompleteFormatted} on ${new Date(
+            i.completedAt || ""
+          ).toLocaleDateString("en-us", {
+            month: "long",
+            year: "numeric",
+          })}")`
+      )
+      .join("\n")}`;
+  if (apiWantToRead.length)
+    mdContent += `${apiCompleted.length ? "\n\n" : ""}### ⏭️ Want to Read (${
+      apiWantToRead.length
+    })\n\n${apiWantToRead
       .map(
         (i) =>
           `[![Book cover of ${i.title.replace(

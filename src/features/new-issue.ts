@@ -40,9 +40,9 @@ export const onNewIssue = async (
   try {
     debug(`Searching for "${issue.data.title}"`);
     const details = await search(issue.data.title);
-    body += `Congrats on starting **${details.title}** by ${details.authors.join(
+    body += `Congrats on adding **${details.title}** by ${details.authors.join(
       ", "
-    )}, I hope you enjoy it! It has an average of ${
+    )} to your bookshelf, I hope you enjoy it! It has an average of ${
       details.averageRating || "unknown"
     }/5 stars and ${(details.ratingsCount || 0).toLocaleString()} ratings on [Google Books](${
       details.googleBooks.info
