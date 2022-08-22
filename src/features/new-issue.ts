@@ -20,14 +20,14 @@ export const onNewIssue = async (
     await cosmic("bookshelf");
     debug("Got config object");
   } catch (error) {}
-  const issue = await octokit.issues.get({
+  const issue = await octokit.rest.issues.get({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
   debug(`Got issue #${issue.data.number}`);
   if (config("users") && Array.isArray(config("users"))) {
-    if (!(config("users") as string[]).find((i) => issue.data.user.login))
+    if (!(config("users") as string[]).find((i) => (issue.data.user || {}).login))
       return debug("User not allowed, skipping");
   }
   let body =
@@ -67,26 +67,26 @@ ${JSON.stringify(details, null, 2)}
     debug("Added labels from search results");
   } catch (error) {
     console.log(error);
-    debug(`Got an error in search results: ${error.toString()}`);
+    debug(`Got an error in search results: ${String(error)}`);
     body +=
       "I couldn't find details about this book using the Google Books API. Don't worry, you can still track it.\n\n";
   }
   body += `When you're finished with reading this book, just close this issue and I'll mark it as completed. Best of luck! 👍`;
-  await octokit.issues.createComment({
+  await octokit.rest.issues.createComment({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
     body,
   });
   debug("Added comment to issue");
-  await octokit.issues.addLabels({
+  await octokit.rest.issues.addLabels({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
     labels,
   });
   debug("Added all labels to issue");
-  await octokit.issues.lock({
+  await octokit.rest.issues.lock({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,

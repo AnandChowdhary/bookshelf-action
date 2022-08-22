@@ -17,23 +17,24 @@ export const onCloseIssue = async (
     await cosmic("bookshelf");
     debug("Got config object");
   } catch (error) {}
-  const issue = await octokit.issues.get({
+  const issue = await octokit.rest.issues.get({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
   debug(`Got issue #${issue.data.number}`);
   if (config("users") && Array.isArray(config("users"))) {
-    if (!(config("users") as string[]).find((i) => issue.data.user.login))
+    if (!(config("users") as string[]).find((i) => (issue.data.user || {}).login))
       return debug("User not allowed, skipping");
   }
-  await octokit.issues.unlock({
+  await octokit.rest.issues.unlock({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
   debug("Unlocked issue");
-  await octokit.issues.createComment({
+  if (!issue.data.closed_at) throw new Error("Closed date not found");
+  await octokit.rest.issues.createComment({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
@@ -42,13 +43,13 @@ export const onCloseIssue = async (
     )}, great job!`,
   });
   debug(`Created comment in issue #${issue.data.number}`);
-  await octokit.issues.lock({
+  await octokit.rest.issues.lock({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
   });
   debug("Locked issue");
-  await octokit.issues.addLabels({
+  await octokit.rest.issues.addLabels({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,
@@ -59,7 +60,7 @@ export const onCloseIssue = async (
   });
   debug(`Added "completed" labels to issue #${issue.data.number}`);
   const currentPercentage = issue.data.title.match(/\(\d+\%\)/g);
-  await octokit.issues.update({
+  await octokit.rest.issues.update({
     owner: context.issue.owner,
     repo: context.issue.repo,
     issue_number: context.issue.number,

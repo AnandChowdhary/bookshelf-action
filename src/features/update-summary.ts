@@ -21,7 +21,7 @@ export const updateSummary = async (
     await cosmic("bookshelf");
     debug("Got config object");
   } catch (error) {}
-  const issues = await octokit.issues.listForRepo({
+  const issues = await octokit.rest.issues.listForRepo({
     owner: context.issue.owner,
     repo: context.issue.repo,
     labels: "kind: book",
@@ -38,7 +38,7 @@ export const updateSummary = async (
     timeToCompleteFormatted?: string;
   })[] = [];
   for await (const issue of issues.data) {
-    const comments = await octokit.issues.listComments({
+    const comments = await octokit.rest.issues.listComments({
       owner: context.issue.owner,
       repo: context.issue.repo,
       issue_number: issue.number,
@@ -47,8 +47,8 @@ export const updateSummary = async (
     let json: BookResult | undefined = undefined;
     try {
       comments.data.forEach((comment) => {
-        if (comment.body.includes("Book details (JSON)"))
-          json = JSON.parse(comment.body.split("```json")[1].split("```")[0]) as BookResult;
+        if ((comment.body || "").includes("Book details (JSON)"))
+          json = JSON.parse((comment.body || "").split("```json")[1].split("```")[0]) as BookResult;
       });
     } catch (error) {
       console.log("JSON parsing error", error);

@@ -15,7 +15,7 @@ export const addDetailsToLabels = async (
   repo: string,
   octokit: InstanceType<typeof GitHub>
 ) => {
-  const options = octokit.issues.listLabelsForRepo.endpoint.merge({ owner, repo });
+  const options = octokit.rest.issues.listLabelsForRepo.endpoint.merge({ owner, repo });
   for await (const labels of octokit.paginate.iterator(options)) {
     for await (const label of labels.data as IssuesListLabelsForRepoResponseData) {
       let color = label.color;
@@ -44,7 +44,13 @@ export const addDetailsToLabels = async (
           )}"`;
       }
       if (color !== label.color || description !== label.description)
-        await octokit.issues.updateLabel({ owner, repo, name: label.name, color, description });
+        await octokit.rest.issues.updateLabel({
+          owner,
+          repo,
+          name: label.name,
+          color,
+          description,
+        });
     }
   }
 };
