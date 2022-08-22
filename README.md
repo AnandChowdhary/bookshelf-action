@@ -60,6 +60,13 @@ When you've completed a book, simply close the issue. An automated comment will 
 
 </details>
 
+<details>
+  <summary>How to add a book as "Want to read"</summary>
+
+When creating a new issue for the book, add the label "want to read".
+
+</details>
+
 ## 📖 Example
 
 Simply create issues with names of books, and Bookshelf Action will automatically organize them with labels:
