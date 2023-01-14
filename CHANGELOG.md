@@ -1,3 +1,36 @@
+## v1.1.0 (2023-01-14)
+
+[📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.1.0) · [💻 Compare](https://github.com/AnandChowdhary/bookshelf-action/compare/v1.0.2...v1.1.0) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.1.0) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.1.0.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.1.0.tar.gz))
+
+### ✨ New features
+
+- [`19a0050`](https://github.com/AnandChowdhary/bookshelf-action/commit/19a0050)  Add command for only updating summary
+- [`ba63961`](https://github.com/AnandChowdhary/bookshelf-action/commit/ba63961)  Sort books reverse-chronologically
+- [`5931bc1`](https://github.com/AnandChowdhary/bookshelf-action/commit/5931bc1)  Add &quot;Want to read&quot; (#96)
+(Issues: [`#96`](https://github.com/AnandChowdhary/bookshelf-action/issues/96))
+
+### 🐛 Bug fixes
+
+- [`27edabc`](https://github.com/AnandChowdhary/bookshelf-action/commit/27edabc)  Ensure comment body exists
+- [`4b73ff6`](https://github.com/AnandChowdhary/bookshelf-action/commit/4b73ff6)  Fix fallback cover URL
+- [`393b5c6`](https://github.com/AnandChowdhary/bookshelf-action/commit/393b5c6)  Add new line before heading, fixed #108
+(Issues: [`#108`](https://github.com/AnandChowdhary/bookshelf-action/issues/108))
+
+### ⬆️ Dependency updates
+
+- [`17d0561`](https://github.com/AnandChowdhary/bookshelf-action/commit/17d0561)  Bump stefanzweifel/git-auto-commit-action
+- [`ed524de`](https://github.com/AnandChowdhary/bookshelf-action/commit/ed524de)  Bump actions/setup-node from v2.1.4 to v2.1.5
+- [`3912cf2`](https://github.com/AnandChowdhary/bookshelf-action/commit/3912cf2)  Bump typescript from 4.1.5 to 4.2.2
+- [`73858c3`](https://github.com/AnandChowdhary/bookshelf-action/commit/73858c3)  Bump ts-jest from 26.5.1 to 26.5.2
+- [`3c755f0`](https://github.com/AnandChowdhary/bookshelf-action/commit/3c755f0)  Bump stefanzweifel/git-auto-commit-action
+- [`ea04fb5`](https://github.com/AnandChowdhary/bookshelf-action/commit/ea04fb5)  Bump semantic-release from 17.3.9 to 17.4.0
+- [`e636906`](https://github.com/AnandChowdhary/bookshelf-action/commit/e636906)  Bump got from 11.8.1 to 11.8.2
+- [`2b514be`](https://github.com/AnandChowdhary/bookshelf-action/commit/2b514be)  Bump semantic-release from 17.4.0 to 17.4.1
+- [`8318fb1`](https://github.com/AnandChowdhary/bookshelf-action/commit/8318fb1)  Bump ts-jest from 26.5.2 to 26.5.3
+- [`73454fa`](https://github.com/AnandChowdhary/bookshelf-action/commit/73454fa)  Bump stefanzweifel/git-auto-commit-action
+- [`7b1adb8`](https://github.com/AnandChowdhary/bookshelf-action/commit/7b1adb8)  Bump typescript from 4.2.2 to 4.2.3
+- [`77aa071`](https://github.com/AnandChowdhary/bookshelf-action/commit/77aa071)  Update all dependencies
+
 ## v1.0.2 (2021-02-20)
 
 [📝 Release notes](https://github.com/AnandChowdhary/bookshelf-action/releases/tag/v1.0.2) · [💻 Compare](https://github.com/AnandChowdhary/bookshelf-action/compare/v1.0.1...v1.0.2) · [🔖 Tag](https://github.com/AnandChowdhary/bookshelf-action/tree/v1.0.2) · 🗄️ Archive ([zip](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.2.zip) · [tar.gz](https://github.com/AnandChowdhary/bookshelf-action/archive/v1.0.2.tar.gz))
