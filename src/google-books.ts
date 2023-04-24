@@ -63,10 +63,13 @@ export const search = async (q: string): Promise<BookResult> => {
   }>(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
     responseType: "json",
   });
+  if (!results.body.items || results.body.items.length === 0) {
+    console.error("No results.body.items", JSON.stringify(result.body));
+    throw new Error("Book not found");
+  }
   const result = results.body.items.sort(
     (a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0)
   )[0];
-  if (!result) throw new Error("Book not found");
 
   return {
     title: result.volumeInfo.title,
