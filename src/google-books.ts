@@ -64,7 +64,7 @@ export const search = async (q: string): Promise<BookResult> => {
     responseType: "json",
   });
   if (!results.body.items || results.body.items.length === 0) {
-    console.error("No results.body.items", JSON.stringify(result.body));
+    console.error("No results.body.items", JSON.stringify(results.body));
     throw new Error("Book not found");
   }
   const result = results.body.items.sort(
