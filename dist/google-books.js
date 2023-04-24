@@ -9,9 +9,11 @@ const search = async (q) => {
     const results = await (0, source_1.default)(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
         responseType: "json",
     });
-    const result = results.body.items.sort((a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0))[0];
-    if (!result)
+    if (!results.body.items || results.body.items.length === 0) {
+        console.error("No results.body.items", JSON.stringify(results.body));
         throw new Error("Book not found");
+    }
+    const result = results.body.items.sort((a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0))[0];
     return {
         title: result.volumeInfo.title,
         authors: result.volumeInfo.authors,

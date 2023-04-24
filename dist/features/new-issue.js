@@ -76,7 +76,7 @@ ${JSON.stringify(details, null, 2)}
         owner: context.issue.owner,
         repo: context.issue.repo,
         issue_number: context.issue.number,
-        labels,
+        labels: labels.map((label) => (label.length > 50 ? `${label.substring(0, 47)}...` : label)),
     });
     (0, core_1.debug)("Added all labels to issue");
     await octokit.rest.issues.lock({
