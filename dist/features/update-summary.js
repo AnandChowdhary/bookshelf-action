@@ -19,63 +19,64 @@ const updateSummary = async (owner, repo, context, octokit) => {
         (0, core_1.debug)("Got config object");
     }
     catch (error) { }
-    const issues = await octokit.rest.issues.listForRepo({
+    let api = [];
+    for await (const response of octokit.paginate.iterator(octokit.rest.issues.listForRepo, {
         owner: context.issue.owner,
         repo: context.issue.repo,
         labels: "kind: book",
         state: "all",
-    });
-    (0, core_1.debug)(`Got ${issues.data.length} issues`);
-    let api = [];
-    for await (const issue of issues.data) {
-        const comments = await octokit.rest.issues.listComments({
-            owner: context.issue.owner,
-            repo: context.issue.repo,
-            issue_number: issue.number,
-        });
-        (0, core_1.debug)(`Got ${comments.data.length} comments in issue ${issue.number}`);
-        let json = undefined;
-        try {
-            comments.data.forEach((comment) => {
-                if ((comment.body || "").includes("Book details (JSON)"))
-                    json = JSON.parse((comment.body || "").split("```json")[1].split("```")[0]);
+    })) {
+        (0, core_1.debug)(`Got ${response.data.length} issues during pagination`);
+        for (const issue of response.data) {
+            const comments = await octokit.rest.issues.listComments({
+                owner: context.issue.owner,
+                repo: context.issue.repo,
+                issue_number: issue.number,
             });
+            (0, core_1.debug)(`Got ${comments.data.length} comments in issue ${issue.number}`);
+            let json = undefined;
+            try {
+                comments.data.forEach((comment) => {
+                    if ((comment.body || "").includes("Book details (JSON)"))
+                        json = JSON.parse((comment.body || "").split("```json")[1].split("```")[0]);
+                });
+            }
+            catch (error) {
+                console.log("JSON parsing error", error);
+            }
+            const isWantToRead = issue.labels.find((label) => typeof label === "string" ? label === "want to read" : label.name === "want to read");
+            if (isWantToRead)
+                (0, core_1.debug)(`Book is in category "want to read"`);
+            if (json) {
+                (0, core_1.debug)(`Found JSON data for ${json.title}`);
+                const currentPercentage = issue.title.match(/\(\d+\%\)/g);
+                const overwrites = (0, cosmic_1.config)("overwrites") || {};
+                const openedAt = (overwrites[issue.number] || {}).started
+                    ? overwrites[issue.number].started
+                    : issue.created_at;
+                const closedAt = (overwrites[issue.number] || {}).completed
+                    ? overwrites[issue.number].completed
+                    : issue.closed_at;
+                api.push({
+                    ...json,
+                    issueNumber: issue.number,
+                    progressPercent: currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
+                        ? parseInt(currentPercentage[0])
+                        : 0,
+                    state: issue.state === "open" ? (isWantToRead ? "want-to-read" : "reading") : "completed",
+                    startedAt: new Date(openedAt).toISOString(),
+                    completedAt: issue.state === "closed" ? new Date(closedAt).toISOString() : undefined,
+                    timeToComplete: issue.state === "closed"
+                        ? new Date(closedAt).getTime() - new Date(openedAt).getTime()
+                        : undefined,
+                    timeToCompleteFormatted: issue.state === "closed"
+                        ? (0, humanize_duration_1.default)(new Date(closedAt).getTime() - new Date(openedAt).getTime()).split(",")[0]
+                        : undefined,
+                });
+            }
+            else
+                (0, core_1.debug)(`Unable to find JSON data for #${issue.id}`);
         }
-        catch (error) {
-            console.log("JSON parsing error", error);
-        }
-        const isWantToRead = issue.labels.find((label) => typeof label === "string" ? label === "want to read" : label.name === "want to read");
-        if (isWantToRead)
-            (0, core_1.debug)(`Book is in category "want to read"`);
-        if (json) {
-            (0, core_1.debug)(`Found JSON data for ${json.title}`);
-            const currentPercentage = issue.title.match(/\(\d+\%\)/g);
-            const overwrites = (0, cosmic_1.config)("overwrites") || {};
-            const openedAt = (overwrites[issue.number] || {}).started
-                ? overwrites[issue.number].started
-                : issue.created_at;
-            const closedAt = (overwrites[issue.number] || {}).completed
-                ? overwrites[issue.number].completed
-                : issue.closed_at;
-            api.push({
-                ...json,
-                issueNumber: issue.number,
-                progressPercent: currentPercentage && currentPercentage.length && !isNaN(parseInt(currentPercentage[0]))
-                    ? parseInt(currentPercentage[0])
-                    : 0,
-                state: issue.state === "open" ? (isWantToRead ? "want-to-read" : "reading") : "completed",
-                startedAt: new Date(openedAt).toISOString(),
-                completedAt: issue.state === "closed" ? new Date(closedAt).toISOString() : undefined,
-                timeToComplete: issue.state === "closed"
-                    ? new Date(closedAt).getTime() - new Date(openedAt).getTime()
-                    : undefined,
-                timeToCompleteFormatted: issue.state === "closed"
-                    ? (0, humanize_duration_1.default)(new Date(closedAt).getTime() - new Date(openedAt).getTime()).split(",")[0]
-                    : undefined,
-            });
-        }
-        else
-            (0, core_1.debug)(`Unable to find JSON data for #${issue.id}`);
     }
     api = api.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
     await fs_1.promises.writeFile((0, path_1.join)(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
