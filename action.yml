@@ -1,13 +1,18 @@
 name: "Books Tracker"
+
 description: "Track your reading using GitHub Actions"
+
 author: "Anand Chowdhary <https://github.com/AnandChowdhary>"
+
 inputs:
   command:
     required: true
     description: "Command to run"
+
 runs:
-  using: "node12"
+  using: "node18"
   main: "dist/index.js"
+
 branding:
   icon: "book-open"
   color: "purple"
