@@ -110,6 +110,16 @@ const onIssueComment = async (owner, repo, context, octokit) => {
                 : `${issue.data.title.trim()} (${progressPercent}%)`,
         });
         (0, core_1.debug)("Updated issue title with progress");
+        // Remove "want to read" label if it's there
+        if (issue.data.labels.find((i) => typeof i === "string" ? i === "want to read" : i.name === "want to read")) {
+            await octokit.rest.issues.removeLabel({
+                owner: context.issue.owner,
+                repo: context.issue.repo,
+                issue_number: context.issue.number,
+                name: "want to read",
+            });
+            (0, core_1.debug)("Removed 'want to read' label");
+        }
     }
     await (0, update_summary_1.updateSummary)(owner, repo, context, octokit);
 };
