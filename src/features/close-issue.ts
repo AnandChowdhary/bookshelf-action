@@ -69,5 +69,19 @@ export const onCloseIssue = async (
         ? `${issue.data.title.split(currentPercentage[0])[0].trim()} (${100}%)`
         : `${issue.data.title.trim()} (${100}%)`,
   });
+  // Remove "want to read" label if it's there
+  if (
+    issue.data.labels.find((i) =>
+      typeof i === "string" ? i === "want to read" : i.name === "want to read"
+    )
+  ) {
+    await octokit.rest.issues.removeLabel({
+      owner: context.issue.owner,
+      repo: context.issue.repo,
+      issue_number: context.issue.number,
+      name: "want to read",
+    });
+    debug("Removed 'want to read' label");
+  }
   await updateSummary(owner, repo, context, octokit);
 };
