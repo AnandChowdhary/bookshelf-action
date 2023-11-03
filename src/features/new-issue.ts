@@ -27,7 +27,7 @@ export const onNewIssue = async (
   });
   debug(`Got issue #${issue.data.number}`);
   if (config("users") && Array.isArray(config("users"))) {
-    if (!(config("users") as string[]).find((i) => (issue.data.user || {}).login))
+    if (!(config("users") as string[]).find((i) => i === (issue.data.user || {}).login))
       return debug("User not allowed, skipping");
   }
   let body =
