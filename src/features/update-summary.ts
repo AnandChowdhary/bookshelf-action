@@ -95,7 +95,7 @@ export const updateSummary = async (
       } else debug(`Unable to find JSON data for #${issue.id}`);
     }
   }
-  api = api.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+  api = api.sort((a, b) => new Date(b.completedAt ?? b.startedAt).getTime() - new Date(a.completedAt ?? a.startedAt).getTime());
   await promises.writeFile(join(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
   debug("Written api.json file");
   debug(`api has length ${api.length}`);
@@ -107,7 +107,7 @@ export const updateSummary = async (
     mdContent += `\n\n### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
       .map(
         (i) =>
-          `[![Book cover of ${i.title.replace(
+          `[![${i.title.replace(
             /\"/g,
             ""
           )}](https://images.weserv.nl/?url=${encodeURIComponent(
@@ -121,7 +121,7 @@ export const updateSummary = async (
     mdContent += `\n\n### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
       .map(
         (i) =>
-          `[![Book cover of ${i.title.replace(
+          `[![${i.title.replace(
             /\"/g,
             ""
           )}](https://images.weserv.nl/?url=${encodeURIComponent(
@@ -142,7 +142,7 @@ export const updateSummary = async (
     mdContent += `\n\n### ⏭️ Want to Read (${apiWantToRead.length})\n\n${apiWantToRead
       .map(
         (i) =>
-          `[![Book cover of ${i.title.replace(
+          `[![${i.title.replace(
             /\"/g,
             ""
           )}](https://images.weserv.nl/?url=${encodeURIComponent(
