@@ -78,7 +78,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
                 (0, core_1.debug)(`Unable to find JSON data for #${issue.id}`);
         }
     }
-    api = api.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+    api = api.sort((a, b) => new Date(b.completedAt ?? b.startedAt).getTime() - new Date(a.completedAt ?? a.startedAt).getTime());
     await fs_1.promises.writeFile((0, path_1.join)(".", "api.json"), JSON.stringify(api, null, 2) + "\n");
     (0, core_1.debug)("Written api.json file");
     (0, core_1.debug)(`api has length ${api.length}`);
@@ -88,11 +88,11 @@ const updateSummary = async (owner, repo, context, octokit) => {
     const apiReading = api.filter((i) => i.state === "reading");
     if (apiReading.length)
         mdContent += `\n\n### ⌛ Currently reading (${apiReading.length})\n\n${apiReading
-            .map((i) => `[![Book cover of ${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors.join(", ")}")`)
+            .map((i) => `[![${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors.join(", ")}")`)
             .join("\n")}`;
     if (apiCompleted.length)
         mdContent += `\n\n### ✅ Completed (${apiCompleted.length})\n\n${apiCompleted
-            .map((i) => `[![Book cover of ${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors
+            .map((i) => `[![${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors
             .join(", ")
             .replace(/\"/g, "")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
             month: "long",
@@ -101,7 +101,7 @@ const updateSummary = async (owner, repo, context, octokit) => {
             .join("\n")}`;
     if (apiWantToRead.length)
         mdContent += `\n\n### ⏭️ Want to Read (${apiWantToRead.length})\n\n${apiWantToRead
-            .map((i) => `[![Book cover of ${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors
+            .map((i) => `[![${i.title.replace(/\"/g, "")}](https://images.weserv.nl/?url=${encodeURIComponent(i.image)}&w=128&h=196&fit=contain)](https://github.com/${owner}/${repo}/issues/${i.issueNumber} "${i.title.replace(/\"/g, "")} by ${i.authors
             .join(", ")
             .replace(/\"/g, "")} completed in ${i.timeToCompleteFormatted} on ${new Date(i.completedAt || "").toLocaleDateString("en-us", {
             month: "long",
