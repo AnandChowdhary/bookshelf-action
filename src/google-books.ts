@@ -57,6 +57,15 @@ export interface BookResult {
   };
 }
 
+export const selectBestBook = (items: Book[]): Book => {
+  if (!items.length) throw new Error("Book not found");
+
+  // Google Books already returns results in relevance order for the query. Sorting
+  // by popularity can pick a more-reviewed but less-relevant book with a similar
+  // title, which is surprising when the API's first result is the exact match.
+  return items[0];
+};
+
 export const search = async (q: string): Promise<BookResult> => {
   const results = await got<{
     items: Book[];
@@ -67,9 +76,7 @@ export const search = async (q: string): Promise<BookResult> => {
     console.error("No results.body.items", JSON.stringify(results.body));
     throw new Error("Book not found");
   }
-  const result = results.body.items.sort(
-    (a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0)
-  )[0];
+  const result = selectBestBook(results.body.items);
 
   return {
     title: result.volumeInfo.title,
