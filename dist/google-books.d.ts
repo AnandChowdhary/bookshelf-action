@@ -53,4 +53,5 @@ export interface BookResult {
         canonical: string;
     };
 }
+export declare const selectBestBook: (items: Book[]) => Book;
 export declare const search: (q: string) => Promise<BookResult>;

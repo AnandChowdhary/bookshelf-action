@@ -3,8 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.search = void 0;
+exports.search = exports.selectBestBook = void 0;
 const source_1 = __importDefault(require("got/dist/source"));
+const selectBestBook = (items) => {
+    if (!items.length)
+        throw new Error("Book not found");
+    // Google Books already returns results in relevance order for the query. Sorting
+    // by popularity can pick a more-reviewed but less-relevant book with a similar
+    // title, which is surprising when the API's first result is the exact match.
+    return items[0];
+};
+exports.selectBestBook = selectBestBook;
 const search = async (q) => {
     const results = await (0, source_1.default)(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
         responseType: "json",
@@ -13,7 +22,7 @@ const search = async (q) => {
         console.error("No results.body.items", JSON.stringify(results.body));
         throw new Error("Book not found");
     }
-    const result = results.body.items.sort((a, b) => (Number(b.volumeInfo.ratingsCount) || 0) - (Number(a.volumeInfo.ratingsCount) || 0))[0];
+    const result = (0, exports.selectBestBook)(results.body.items);
     return {
         title: result.volumeInfo.title,
         authors: result.volumeInfo.authors,
