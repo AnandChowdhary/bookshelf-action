@@ -66,12 +66,32 @@ export const selectBestBook = (items: Book[]): Book => {
   return items[0];
 };
 
+const rateLimitRetryDelaysMs = [1000, 3000, 5000];
+
+const isRateLimitError = (error: unknown): boolean =>
+  typeof error === "object" &&
+  error !== null &&
+  (error as { response?: { statusCode?: number } }).response?.statusCode === 429;
+
+const wait = async (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
 export const search = async (q: string): Promise<BookResult> => {
-  const results = await got<{
-    items: Book[];
-  }>(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
-    responseType: "json",
-  });
+  let results: { body: { items?: Book[] } } | undefined;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`;
+
+  for (let attempt = 0; !results; attempt += 1) {
+    try {
+      results = await got<{
+        items: Book[];
+      }>(url, {
+        responseType: "json",
+      });
+    } catch (error) {
+      if (!isRateLimitError(error) || attempt >= rateLimitRetryDelaysMs.length) throw error;
+      await wait(rateLimitRetryDelaysMs[attempt]);
+    }
+  }
+
   if (!results.body.items || results.body.items.length === 0) {
     console.error("No results.body.items", JSON.stringify(results.body));
     throw new Error("Book not found");

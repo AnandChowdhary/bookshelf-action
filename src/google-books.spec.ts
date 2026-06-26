@@ -1,4 +1,9 @@
-import { Book, selectBestBook } from "./google-books";
+import got from "got/dist/source";
+import { Book, search, selectBestBook } from "./google-books";
+
+jest.mock("got/dist/source", () => jest.fn());
+
+const mockedGot = got as unknown as jest.Mock;
 
 const makeBook = (title: string, ratingsCount: number): Book => ({
   kind: "books#volume",
@@ -39,5 +44,25 @@ describe("selectBestBook", () => {
 
   it("throws when Google Books returns no items", () => {
     expect(() => selectBestBook([])).toThrow("Book not found");
+  });
+});
+
+describe("search", () => {
+  beforeEach(() => {
+    mockedGot.mockReset();
+  });
+
+  it("retries rate-limited Google Books requests before returning details", async () => {
+    const book = makeBook("The Pragmatic Programmer", 42);
+    const rateLimitError = Object.assign(new Error("Response code 429 (Too Many Requests)"), {
+      response: { statusCode: 429 },
+    });
+
+    mockedGot.mockRejectedValueOnce(rateLimitError).mockResolvedValueOnce({ body: { items: [book] } });
+
+    const result = await search("The Pragmatic Programmer");
+
+    expect(result.title).toBe("The Pragmatic Programmer");
+    expect(mockedGot).toHaveBeenCalledTimes(2);
   });
 });

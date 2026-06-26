@@ -14,10 +14,26 @@ const selectBestBook = (items) => {
     return items[0];
 };
 exports.selectBestBook = selectBestBook;
+const rateLimitRetryDelaysMs = [1000, 3000, 5000];
+const isRateLimitError = (error) => typeof error === "object" &&
+    error !== null &&
+    error.response?.statusCode === 429;
+const wait = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const search = async (q) => {
-    const results = await (0, source_1.default)(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`, {
-        responseType: "json",
-    });
+    let results;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(q)}`;
+    for (let attempt = 0; !results; attempt += 1) {
+        try {
+            results = await (0, source_1.default)(url, {
+                responseType: "json",
+            });
+        }
+        catch (error) {
+            if (!isRateLimitError(error) || attempt >= rateLimitRetryDelaysMs.length)
+                throw error;
+            await wait(rateLimitRetryDelaysMs[attempt]);
+        }
+    }
     if (!results.body.items || results.body.items.length === 0) {
         console.error("No results.body.items", JSON.stringify(results.body));
         throw new Error("Book not found");
